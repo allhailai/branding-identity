@@ -1,0 +1,175 @@
+---
+---
+
+<section class="product-screenshots" id="product-screenshots">
+  <div class="screenshots-inner">
+    <div class="reveal">
+      <div class="section-label">See It In Action</div>
+      <h2>A working product, not an aspiration.</h2>
+      <p class="screenshots-subtitle">
+        PatientOS is live and operational today. Here's what your team will use from day one.
+      </p>
+    </div>
+    
+    <div class="screenshots-grid reveal">
+      <div class="screenshot-card">
+        <div class="screenshot-image">
+          <img
+            src="/branding-identity/screenshots/offices.png"
+            alt="My Teams Dashboard - Manage offices, view team metrics, and track tasks across multiple locations"
+            loading="lazy"
+          />
+        </div>
+        <div class="screenshot-label">Team Management</div>
+        <p>Manage offices, view aggregate metrics, and track team performance across multiple locations.</p>
+      </div>
+
+      <div class="screenshot-card">
+        <div class="screenshot-image">
+          <img
+            src="/branding-identity/screenshots/queues.png"
+            alt="My Queues - Manage workflow queues and task escalation with real-time metrics"
+            loading="lazy"
+          />
+        </div>
+        <div class="screenshot-label">Queue Management</div>
+        <p>Manage workflow queues, escalation paths, and task distribution with real-time metrics.</p>
+      </div>
+
+      <div class="screenshot-card">
+        <div class="screenshot-image">
+          <img
+            src="/branding-identity/screenshots/workflows.png"
+            alt="Workflows - Monitor and manage 100+ workflows with status tracking and patient data"
+            loading="lazy"
+          />
+        </div>
+        <div class="screenshot-label">Workflow Monitoring</div>
+        <p>Monitor and manage 100+ concurrent workflows with real-time status tracking and patient data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-screenshots {
+    padding: 8rem 4rem;
+    background: linear-gradient(
+      180deg,
+      var(--deep) 0%,
+      rgba(62, 232, 181, 0.02) 50%,
+      var(--deep) 100%
+    );
+  }
+
+  .screenshots-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .product-screenshots h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 800px;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .screenshots-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 650px;
+    line-height: 1.7;
+    margin-bottom: 4rem;
+    font-weight: 300;
+  }
+
+  .screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+
+  .screenshot-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(62, 232, 181, 0.15);
+    background: linear-gradient(
+      135deg,
+      rgba(62, 232, 181, 0.05),
+      rgba(62, 232, 181, 0.02)
+    );
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .screenshot-card:hover {
+    border-color: rgba(62, 232, 181, 0.3);
+    box-shadow: 0 12px 40px rgba(62, 232, 181, 0.1);
+    transform: translateY(-4px);
+  }
+
+  .screenshot-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--navy), var(--slate));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .screenshot-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .screenshot-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white);
+    padding: 1.5rem 1.5rem 0.5rem;
+  }
+
+  .screenshot-card p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    padding: 0 1.5rem 1.5rem;
+    font-weight: 300;
+    flex-grow: 1;
+  }
+
+  @media (max-width: 968px) {
+    .product-screenshots {
+      padding: 5rem 2rem;
+    }
+
+    .screenshots-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .product-screenshots {
+      padding: 4rem 1.5rem;
+    }
+
+    .screenshots-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .screenshot-image {
+      aspect-ratio: 16 / 12;
+    }
+  }
+</style>
