@@ -16,6 +16,9 @@
         --accent: #3ee8b5;
         --accent-dim: rgba(62, 232, 181, 0.15);
         --accent-glow: rgba(62, 232, 181, 0.3);
+        --warm-accent: #e8a84c;
+        --warm-accent-dim: rgba(232, 168, 76, 0.15);
+        --warm-accent-glow: rgba(232, 168, 76, 0.25);
         --warm: #f0ebe3;
         --text: #e8e4df;
         --text-dim: #8a95a8;
@@ -37,6 +40,19 @@
         background: var(--deep);
         color: var(--text);
         overflow-x: hidden;
+      }
+
+      /* SCROLL PROGRESS */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--warm-accent));
+        z-index: 102;
+        transition: width 0.1s ease-out;
+        pointer-events: none;
       }
 
       /* NAV */
@@ -97,6 +113,62 @@
       .nav-cta:hover {
         box-shadow: 0 0 24px var(--accent-glow);
         transform: translateY(-1px);
+      }
+
+      /* HAMBURGER */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 4px;
+        z-index: 101;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--white);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+        transform-origin: center;
+      }
+      .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+      .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      /* MOBILE MENU */
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10, 22, 40, 0.97);
+        backdrop-filter: blur(20px);
+        z-index: 99;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem;
+        padding: 2rem;
+      }
+      .mobile-menu.open { display: flex; }
+      .mobile-menu a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        transition: color 0.3s;
+      }
+      .mobile-menu a:hover { color: var(--accent); }
+      .mobile-menu .mobile-cta {
+        background: var(--accent);
+        color: var(--deep);
+        padding: 0.9rem 2.4rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-top: 0.5rem;
       }
 
       /* HERO */
@@ -271,15 +343,42 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 3.5rem;
+        gap: 1.2rem;
         flex-wrap: wrap;
       }
 
-      .trust-logos span {
-        font-size: 0.95rem;
-        color: rgba(255, 255, 255, 0.25);
+      .trust-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.7rem 1.3rem;
+        border: 1px solid rgba(62, 232, 181, 0.25);
+        border-radius: 8px;
+        background: rgba(62, 232, 181, 0.05);
+        backdrop-filter: blur(8px);
+        font-size: 0.82rem;
+        color: var(--accent);
         font-weight: 600;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.06em;
+        transition: all 0.3s;
+      }
+      .trust-badge:hover {
+        border-color: rgba(62, 232, 181, 0.5);
+        background: rgba(62, 232, 181, 0.1);
+        box-shadow: 0 0 18px rgba(62, 232, 181, 0.18);
+        transform: translateY(-1px);
+      }
+      .trust-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+      .trust-badge-aws {
+        border-color: rgba(255, 153, 0, 0.3);
+        background: rgba(255, 153, 0, 0.05);
+        color: #ff9900;
+      }
+      .trust-badge-aws:hover {
+        border-color: rgba(255, 153, 0, 0.55);
+        background: rgba(255, 153, 0, 0.1);
+        box-shadow: 0 0 18px rgba(255, 153, 0, 0.18);
       }
 
       /* PROBLEM SECTION */
@@ -346,9 +445,17 @@
       }
 
       .problem-icon {
-        font-size: 1.8rem;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: rgba(255, 100, 100, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-bottom: 1.2rem;
+        color: rgba(255, 130, 130, 0.85);
       }
+      .problem-icon svg { width: 22px; height: 22px; }
 
       .problem-card h3 {
         font-size: 1.1rem;
@@ -410,57 +517,77 @@
         position: relative;
       }
 
-      .ninety-block,
-      .ten-block {
-        border-radius: 16px;
-        padding: 2.5rem;
-        position: relative;
+      /* 90/10 ARCHITECTURE DIAGRAM */
+      .arch-diagram {
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(62, 232, 181, 0.2);
+        box-shadow: 0 0 40px rgba(62, 232, 181, 0.06);
       }
 
-      .ninety-block {
-        background: linear-gradient(135deg, var(--navy), var(--slate));
-        border: 1px solid rgba(62, 232, 181, 0.15);
-        margin-bottom: 1.5rem;
+      .arch-layer { padding: 1.8rem 2rem; position: relative; }
+
+      .arch-layer-client {
+        background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+        border-bottom: 1px solid rgba(62, 232, 181, 0.15);
+      }
+      .arch-layer-platform {
+        background: linear-gradient(135deg, rgba(62, 232, 181, 0.1), rgba(62, 232, 181, 0.05));
+        border-bottom: 1px solid rgba(62, 232, 181, 0.2);
+        padding: 2.2rem 2rem;
+      }
+      .arch-layer-infra {
+        background: linear-gradient(135deg, rgba(10, 22, 40, 0.9), rgba(17, 29, 51, 0.9));
       }
 
-      .ninety-block::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, var(--accent), transparent);
-      }
+      .arch-layer-label { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
 
-      .ten-block {
-        background: linear-gradient(135deg, var(--navy), var(--slate));
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
-
-      .block-label {
-        font-size: 3rem;
+      .arch-pct {
         font-family: "DM Serif Display", serif;
-        color: var(--accent);
-        margin-bottom: 0.5rem;
-      }
-
-      .ten-block .block-label {
-        color: var(--white);
-      }
-
-      .block-title {
-        font-size: 1.15rem;
+        font-size: 2rem;
+        line-height: 1;
         font-weight: 600;
-        margin-bottom: 0.8rem;
-        color: var(--white);
+      }
+      .arch-layer-client .arch-pct { color: var(--warm-accent); }
+      .arch-layer-platform .arch-pct { color: var(--accent); }
+
+      .arch-layer-tag {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 600;
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+      }
+      .arch-layer-client .arch-layer-tag {
+        background: var(--warm-accent-dim);
+        color: var(--warm-accent);
+        border: 1px solid rgba(232, 168, 76, 0.25);
+      }
+      .arch-layer-platform .arch-layer-tag {
+        background: var(--accent-dim);
+        color: var(--accent);
+        border: 1px solid rgba(62, 232, 181, 0.25);
+      }
+      .arch-layer-infra .arch-layer-tag {
+        background: rgba(255,255,255,0.06);
+        color: var(--text-dim);
+        border: 1px solid rgba(255,255,255,0.1);
       }
 
-      .block-desc {
-        font-size: 0.95rem;
+      .arch-title { font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 0.4rem; }
+      .arch-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.55; font-weight: 300; }
+
+      .arch-infra-badges { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.6rem; }
+      .arch-infra-badge {
+        font-size: 0.72rem;
         color: var(--text-dim);
-        line-height: 1.65;
-        font-weight: 300;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 4px;
+        padding: 0.2rem 0.55rem;
+        letter-spacing: 0.04em;
+        font-weight: 500;
       }
 
       .solution-features {
@@ -484,8 +611,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        color: var(--accent);
       }
+      .feature-icon svg { width: 22px; height: 22px; }
 
       .feature-item h4 {
         font-size: 1rem;
@@ -530,16 +658,115 @@
         font-style: italic;
       }
 
-      .quote-attr {
-        font-size: 0.9rem;
-        color: var(--text-dim);
-        font-weight: 400;
+      .quote-attribution {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      .quote-attr-name { font-size: 1rem; font-weight: 600; color: var(--warm-accent); }
+      .quote-attr-title { font-size: 0.85rem; color: var(--text-dim); font-weight: 400; }
+
+      .quote-placeholder-note {
+        display: inline-block;
+        margin-top: 1.5rem;
+        font-size: 0.72rem;
+        color: rgba(232, 168, 76, 0.45);
+        border: 1px dashed rgba(232, 168, 76, 0.2);
+        border-radius: 6px;
+        padding: 0.45rem 1rem;
+        letter-spacing: 0.04em;
+        font-style: italic;
       }
 
-      .quote-attr strong {
-        color: var(--accent);
+      /* HOW IT WORKS */
+      .how-it-works {
+        padding: 7rem 4rem;
+        background: linear-gradient(180deg, var(--deep) 0%, rgba(232, 168, 76, 0.03) 50%, var(--deep) 100%);
+      }
+      .how-it-works-inner { max-width: 1200px; margin: 0 auto; }
+
+      .how-it-works h2 {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--white);
+        line-height: 1.15;
+        max-width: 700px;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+      }
+      .how-it-works-sub {
+        font-size: 1.1rem;
+        color: var(--text-dim);
+        max-width: 580px;
+        line-height: 1.65;
+        margin-bottom: 4rem;
+        font-weight: 300;
+      }
+
+      .process-steps {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: start;
+      }
+
+      .process-step {
+        background: linear-gradient(135deg, var(--navy), var(--slate));
+        border: 1px solid rgba(232, 168, 76, 0.15);
+        border-radius: 14px;
+        padding: 2.2rem 1.8rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s;
+      }
+      .process-step::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--warm-accent), transparent);
+      }
+      .process-step:hover {
+        border-color: rgba(232, 168, 76, 0.35);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 32px rgba(232, 168, 76, 0.08);
+      }
+
+      .step-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        background: var(--warm-accent-dim);
+        border: 1.5px solid rgba(232, 168, 76, 0.4);
+        font-family: "DM Serif Display", serif;
+        font-size: 1.2rem;
+        color: var(--warm-accent);
+        margin-bottom: 1.2rem;
         font-weight: 600;
       }
+      .step-subtitle {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--warm-accent);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      .step-title { font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 0.6rem; }
+      .step-desc { font-size: 0.88rem; color: var(--text-dim); line-height: 1.6; font-weight: 300; }
+
+      .process-connector {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 0 0.75rem;
+        padding-top: 3.8rem;
+        color: var(--warm-accent);
+        opacity: 0.45;
+      }
+      .process-connector svg { width: 20px; height: 20px; }
 
       /* FOR PE SECTION */
       .pe-section {
@@ -688,48 +915,28 @@
 
       /* RESPONSIVE */
       @media (max-width: 968px) {
-        nav {
-          padding: 1.2rem 2rem;
-        }
-        .problem-grid {
-          grid-template-columns: 1fr;
-        }
-        .solution-columns {
-          grid-template-columns: 1fr;
-        }
-        .pe-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .hero {
-          padding: 7rem 1.5rem 4rem;
-        }
-        .problem,
-        .solution,
-        .pe-section {
-          padding: 5rem 2rem;
-        }
+        nav { padding: 1.2rem 2rem; }
+        .problem-grid { grid-template-columns: 1fr; }
+        .solution-columns { grid-template-columns: 1fr; }
+        .pe-grid { grid-template-columns: repeat(2, 1fr); }
+        .process-steps { grid-template-columns: 1fr; gap: 1.5rem; }
+        .process-connector { display: none; }
+        .hero { padding: 7rem 1.5rem 4rem; }
+        .problem, .solution, .pe-section, .how-it-works { padding: 5rem 2rem; }
       }
 
       @media (max-width: 600px) {
-        .nav-links a:not(.nav-cta) {
-          display: none;
-        }
-        .pe-grid {
-          grid-template-columns: 1fr;
-        }
-        .hero-actions {
-          flex-direction: column;
-          align-items: center;
-        }
-        .cta-actions {
-          flex-direction: column;
-          align-items: center;
-        }
-        footer {
-          flex-direction: column;
-          gap: 1.5rem;
-          text-align: center;
-        }
+        .nav-links { display: none; }
+        .hamburger { display: flex; }
+        .pe-grid { grid-template-columns: 1fr; }
+        .process-steps { grid-template-columns: 1fr; gap: 1.5rem; }
+        .process-connector { display: none; }
+        .hero-actions { flex-direction: column; align-items: center; }
+        .cta-actions { flex-direction: column; align-items: center; }
+        footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+        .trust-logos { gap: 0.8rem; }
+        .trust-badge { padding: 0.6rem 1rem; font-size: 0.75rem; }
+        .how-it-works { padding: 5rem 2rem; }
       }
 
       /* SCROLL ANIMATIONS */
@@ -745,9 +952,17 @@
         opacity: 1;
         transform: translateY(0);
       }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+        .reveal { opacity: 1; transform: none; }
+      }
     </style>
   </head>
   <body>
+    <!-- SCROLL PROGRESS -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- NAV -->
     <nav>
       <div class="logo">Patient<span>OS</span></div>
@@ -757,7 +972,18 @@
         <a href="#investors">Investors</a>
         <a href="#cta" class="nav-cta">Request a Demo</a>
       </div>
+      <div class="hamburger" id="hamburger" aria-label="Open menu" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+      </div>
     </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#problem" class="mobile-link">The Problem</a>
+      <a href="#solution" class="mobile-link">Platform</a>
+      <a href="#investors" class="mobile-link">Investors</a>
+      <a href="#cta" class="mobile-cta">Request a Demo</a>
+    </div>
 
     <!-- HERO -->
     <section class="hero">
@@ -776,9 +1002,31 @@
     <div class="trust-bar">
       <p>Built for compliance-first healthcare companies</p>
       <div class="trust-logos">
-        <span>HIPAA</span>
-        <span>SOC 2</span>
-        <span>AWS</span>
+        <div class="trust-badge">
+          <!-- Shield icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          HIPAA Compliant
+        </div>
+        <div class="trust-badge">
+          <!-- Verified badge icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          SOC 2 Type II
+        </div>
+        <div class="trust-badge">
+          <!-- Lock icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          256-bit Encryption
+        </div>
+        <div class="trust-badge">
+          <!-- File check icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 13"/></svg>
+          BAA Available
+        </div>
+        <div class="trust-badge trust-badge-aws">
+          <!-- Cloud icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+          Built on AWS
+        </div>
       </div>
     </div>
 
@@ -833,83 +1081,133 @@
         </div>
         <div class="solution-columns">
           <div class="ninety-ten reveal">
-            <div class="ninety-block">
-              <div class="block-label">90%</div>
-              <div class="block-title">We handle this.</div>
-              <div class="block-desc">
-                Workflows, tasks, queues, Patient Status Journey (PSJ),
-                compliance posture, secure AWS infrastructure, and AI agents
-                that automate your operations — all in our Core SDK, ready to
-                deploy.
+            <div class="arch-diagram">
+              <!-- Client layer: 10% -->
+              <div class="arch-layer arch-layer-client">
+                <div class="arch-layer-label">
+                  <span class="arch-pct">10%</span>
+                  <span class="arch-layer-tag">Your Layer</span>
+                </div>
+                <div class="arch-title">You build this.</div>
+                <div class="arch-desc">Care protocols, workforce configurations, and patient experiences that define your brand — the last mile that makes you different.</div>
               </div>
-            </div>
-            <div class="ten-block">
-              <div class="block-label">10%</div>
-              <div class="block-title">You build this.</div>
-              <div class="block-desc">
-                The last mile that makes you different — your specific care
-                protocols, workforce configurations, and patient experiences
-                that define your brand.
+              <!-- PatientOS layer: 90% -->
+              <div class="arch-layer arch-layer-platform">
+                <div class="arch-layer-label">
+                  <span class="arch-pct">90%</span>
+                  <span class="arch-layer-tag">PatientOS Core</span>
+                </div>
+                <div class="arch-title">We handle this.</div>
+                <div class="arch-desc">Workflows, tasks, queues, PSJ, compliance posture, AI agents, and secure infrastructure — all in the Core SDK, ready to deploy.</div>
+              </div>
+              <!-- Infrastructure layer -->
+              <div class="arch-layer arch-layer-infra">
+                <div class="arch-layer-label">
+                  <span class="arch-layer-tag">Infrastructure</span>
+                </div>
+                <div class="arch-infra-badges">
+                  <span class="arch-infra-badge">AWS</span>
+                  <span class="arch-infra-badge">HIPAA</span>
+                  <span class="arch-infra-badge">SOC 2</span>
+                  <span class="arch-infra-badge">Encryption</span>
+                  <span class="arch-infra-badge">Audit Trails</span>
+                </div>
               </div>
             </div>
           </div>
           <div class="solution-features reveal">
             <div class="feature-item">
-              <div class="feature-icon">🤖</div>
+              <div class="feature-icon">
+                <!-- CPU/AI icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+              </div>
               <div>
                 <h4>Agentic AI Workforce</h4>
-                <p>
-                  Autonomous agents that run your business processes — scheduling, routing, intake, follow-ups — the same operations your competitors are still staffing manually. Your human team focuses on care. Your AI team handles the rest.
-                </p>
+                <p>Autonomous agents that run your business processes — scheduling, routing, intake, follow-ups — the same operations your competitors are still staffing manually. Your human team focuses on care. Your AI team handles the rest.</p>
               </div>
             </div>
             <div class="feature-item">
-              <div class="feature-icon">🚀</div>
+              <div class="feature-icon">
+                <!-- Zap/launch icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
               <div>
                 <h4>Operational on Day One</h4>
-                <p>
-                  Go live with the operational maturity most healthcare
-                  companies take years to reach. No engineering team required.
-                </p>
-              </div>
-            </div>
-                        <div class="feature-item">
-              <div class="feature-icon">🛡</div>
-              <div>
-                <h4>Compliant Infrastructure</h4>
-                <p>
-                  HIPAA, and SOC 2 compliant AWS environment.
-                  Encryption, logging, access controls, BAAs, and audit trails —
-                  configured from day one.
-                </p>
+                <p>Go live with the operational maturity most healthcare companies take years to reach. No engineering team required.</p>
               </div>
             </div>
             <div class="feature-item">
-              <div class="feature-icon">⚡</div>
+              <div class="feature-icon">
+                <!-- Shield check icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              </div>
               <div>
-                <h4>Core SDK</h4>
-                <p>
-                  Workflows, tasks, queues, and Patient Status Journey — the
-                  operational backbone every healthcare company needs, codified
-                  and ready.
-                </p>
+                <h4>Compliant Infrastructure</h4>
+                <p>HIPAA and SOC 2 compliant AWS environment. Encryption, logging, access controls, BAAs, and audit trails — configured from day one.</p>
               </div>
             </div>
-
+            <div class="feature-item">
+              <div class="feature-icon">
+                <!-- Layers/SDK icon -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+              </div>
+              <div>
+                <h4>Core SDK</h4>
+                <p>Workflows, tasks, queues, and Patient Status Journey — the operational backbone every healthcare company needs, codified and ready.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- QUOTE -->
+    <!-- QUOTE / SOCIAL PROOF -->
     <section class="quote-section reveal">
       <p class="quote-text">
-        Healthcare companies shouldn't be infrastructure companies. We built the
-        foundation — so they can build the future.
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. PatientOS gave us the operational foundation we needed — we were seeing patients in weeks, not years."
       </p>
-      <p class="quote-attr">
-        <strong>PatientOS</strong> — Focus on patients. We'll handle the rest.
-      </p>
+      <div class="quote-attribution">
+        <span class="quote-attr-name">Jane Doe, CEO</span>
+        <span class="quote-attr-title">Acme Health · Series A</span>
+      </div>
+      <div class="quote-placeholder-note">⚠ Placeholder — replace with a real client quote before launch</div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works" id="how-it-works">
+      <div class="how-it-works-inner">
+        <div class="reveal">
+          <div class="section-label">How It Works</div>
+          <h2>From zero to operational in days, not years.</h2>
+          <p class="how-it-works-sub">Three steps. No infrastructure team required. Enterprise-grade from the moment you deploy.</p>
+        </div>
+        <div class="process-steps reveal">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <div class="step-subtitle">Deploy</div>
+            <div class="step-title">PatientOS Core on AWS</div>
+            <div class="step-desc">Spin up a HIPAA-compliant, SOC 2-ready AWS environment with the PatientOS Core SDK in hours — not months. No DevOps team, no compliance consultants.</div>
+          </div>
+          <div class="process-connector">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <div class="step-subtitle">Configure</div>
+            <div class="step-title">Your Care Protocols &amp; AI Agents</div>
+            <div class="step-desc">Define your care model, workforce rules, and patient workflows. Configure AI agents to automate scheduling, intake, routing, and follow-ups specific to your operations.</div>
+          </div>
+          <div class="process-connector">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <div class="step-subtitle">Go Live</div>
+            <div class="step-title">See Your First Patient</div>
+            <div class="step-desc">Launch with enterprise-grade operations your competitors won't have for years. Your AI workforce handles the operational burden. Your team focuses on care.</div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- WHY NOW SECTION -->
@@ -975,7 +1273,7 @@
 
     <!-- CTA -->
     <section class="cta-section" id="cta">
-      <h2>Your patients are waiting.<br />Your competitors aren't.</h2>
+      <h2>Your patients are waiting.<br />Your infrastructure shouldn't be.</h2>
       <p>
         See how PatientOS gets your company operational in weeks, not years.
       </p>
@@ -1010,8 +1308,41 @@
         },
         { threshold: 0.15 },
       );
-
       reveals.forEach((el) => observer.observe(el));
+
+      // Scroll progress indicator
+      const scrollProgress = document.getElementById("scrollProgress");
+      function updateScrollProgress() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollProgress.style.width = pct + "%";
+      }
+      window.addEventListener("scroll", updateScrollProgress, { passive: true });
+
+      // Hamburger menu
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      function toggleMenu() {
+        const isOpen = hamburger.classList.toggle("open");
+        mobileMenu.classList.toggle("open", isOpen);
+        document.body.style.overflow = isOpen ? "hidden" : "";
+      }
+
+      hamburger.addEventListener("click", toggleMenu);
+      hamburger.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleMenu(); }
+      });
+
+      // Close mobile menu when a link is clicked
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileMenu.classList.remove("open");
+          document.body.style.overflow = "";
+        });
+      });
     </script>
   </body>
 </html>
