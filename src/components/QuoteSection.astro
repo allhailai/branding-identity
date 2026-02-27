@@ -1,0 +1,76 @@
+---
+---
+
+<section class="quote-section reveal">
+  <p class="quote-text">
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. PatientOS gave us
+    the operational foundation we needed — we were seeing patients in weeks, not
+    years."
+  </p>
+  <div class="quote-attribution">
+    <span class="quote-attr-name">Jane Doe, CEO</span>
+    <span class="quote-attr-title">Acme Health · Series A</span>
+  </div>
+  <div class="quote-placeholder-note">
+    ⚠ Placeholder — replace with a real client quote before launch
+  </div>
+</section>
+
+<style>
+  .quote-section {
+    padding: 6rem 4rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .quote-section::before {
+    content: '"';
+    font-family: "DM Serif Display", serif;
+    font-size: 12rem;
+    color: rgba(62, 232, 181, 0.06);
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1;
+  }
+
+  .quote-text {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--white);
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.45;
+    font-style: italic;
+  }
+
+  .quote-attribution {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .quote-attr-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--warm-accent);
+  }
+  .quote-attr-title {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  .quote-placeholder-note {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.72rem;
+    color: rgba(232, 168, 76, 0.45);
+    border: 1px dashed rgba(232, 168, 76, 0.2);
+    border-radius: 6px;
+    padding: 0.45rem 1rem;
+    letter-spacing: 0.04em;
+    font-style: italic;
+  }
+</style>

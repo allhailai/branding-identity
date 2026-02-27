@@ -1,0 +1,65 @@
+---
+---
+
+<section class="cta-section" id="cta">
+  <h2>Your patients are waiting.<br />Your infrastructure shouldn't be.</h2>
+  <p>
+    See how PatientOS gets your company operational in weeks, not years.
+  </p>
+  <div class="cta-actions">
+    <a href="#" class="btn-primary">Request a Demo</a>
+    <a href="#" class="btn-secondary">Talk to Our Team</a>
+  </div>
+</section>
+
+<style>
+  .cta-section {
+    padding: 8rem 4rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+      circle,
+      rgba(62, 232, 181, 0.08) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .cta-section h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .cta-section p {
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

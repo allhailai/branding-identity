@@ -1,0 +1,116 @@
+---
+---
+
+<section class="pe-section" id="investors">
+  <div class="reveal">
+    <div class="section-label">For Investors Who Know Healthcare</div>
+    <h2>
+      The firms that succeed in healthcare won't just write better checks.
+      They'll eliminate the 18 months between funding and first patient.
+    </h2>
+    <p class="pe-subtitle">
+      Your portfolio's biggest risk isn't the care model — you already picked the
+      right company. It's the infrastructure gauntlet that burns runway before a
+      single patient is seen. PatientOS eliminates it. AI agents automate the
+      manual MCO operations. Compliant infrastructure deploys on day one. Your
+      companies launch with the operational maturity their competitors won't have
+      for years. That's portfolio alpha.
+    </p>
+  </div>
+  <div class="pe-grid reveal">
+    <div class="pe-card">
+      <div class="pe-stat">10×</div>
+      <div class="pe-label">Faster to first patient revenue</div>
+    </div>
+    <div class="pe-card">
+      <div class="pe-stat">90%</div>
+      <div class="pe-label">
+        Of MCO operational labor automated by AI — from day one, not after a
+        2-year AI transformation project
+      </div>
+    </div>
+    <div class="pe-card">
+      <div class="pe-stat">$0</div>
+      <div class="pe-label">Spent building compliance infrastructure</div>
+    </div>
+    <div class="pe-card">
+      <div class="pe-stat">Day 1</div>
+      <div class="pe-label">Enterprise-grade operations, deployed</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pe-section {
+    padding: 8rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .pe-section h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .pe-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 4rem;
+    font-weight: 300;
+  }
+
+  .pe-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .pe-card {
+    background: linear-gradient(135deg, var(--navy), var(--slate));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    transition: all 0.4s;
+  }
+
+  .pe-card:hover {
+    border-color: rgba(62, 232, 181, 0.2);
+    transform: translateY(-4px);
+  }
+
+  .pe-stat {
+    font-family: "DM Serif Display", serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .pe-label {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 968px) {
+    .pe-section {
+      padding: 5rem 2rem;
+    }
+    .pe-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .pe-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

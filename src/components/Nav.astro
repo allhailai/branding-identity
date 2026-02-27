@@ -1,0 +1,203 @@
+---
+---
+
+<nav>
+  <div class="logo">Patient<span>OS</span></div>
+  <div class="nav-links">
+    <a href="#problem">The Problem</a>
+    <a href="#solution">Platform</a>
+    <a href="#investors">Investors</a>
+    <a href="#cta" class="nav-cta">Request a Demo</a>
+  </div>
+  <div
+    class="hamburger"
+    id="hamburger"
+    aria-label="Open menu"
+    role="button"
+    tabindex="0"
+  >
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#problem" class="mobile-link">The Problem</a>
+  <a href="#solution" class="mobile-link">Platform</a>
+  <a href="#investors" class="mobile-link">Investors</a>
+  <a href="#cta" class="mobile-cta">Request a Demo</a>
+</div>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10, 22, 40, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(62, 232, 181, 0.08);
+  }
+
+  .logo {
+    font-family: "DM Serif Display", serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .logo span {
+    color: var(--accent);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: color 0.3s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links a:hover {
+    color: var(--white);
+  }
+
+  .nav-cta {
+    background: var(--accent) !important;
+    color: var(--deep) !important;
+    padding: 0.6rem 1.6rem;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    transition: all 0.3s !important;
+  }
+
+  .nav-cta:hover {
+    box-shadow: 0 0 24px var(--accent-glow);
+    transform: translateY(-1px);
+  }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 101;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 22, 40, 0.97);
+    backdrop-filter: blur(20px);
+    z-index: 99;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    padding: 2rem;
+  }
+  .mobile-menu.open {
+    display: flex;
+  }
+  .mobile-menu a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover {
+    color: var(--accent);
+  }
+  .mobile-menu .mobile-cta {
+    background: var(--accent);
+    color: var(--deep);
+    padding: 0.9rem 2.4rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 968px) {
+    nav {
+      padding: 1.2rem 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links {
+      display: none;
+    }
+    .hamburger {
+      display: flex;
+    }
+  }
+</style>
+
+<script>
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  function toggleMenu() {
+    if (!hamburger || !mobileMenu) return;
+    const isOpen = hamburger.classList.toggle("open");
+    mobileMenu.classList.toggle("open", isOpen);
+    document.body.style.overflow = isOpen ? "hidden" : "";
+  }
+
+  hamburger?.addEventListener("click", toggleMenu);
+  hamburger?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleMenu();
+    }
+  });
+
+  mobileMenu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      hamburger?.classList.remove("open");
+      mobileMenu?.classList.remove("open");
+      document.body.style.overflow = "";
+    });
+  });
+</script>

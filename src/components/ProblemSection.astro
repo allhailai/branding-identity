@@ -1,0 +1,114 @@
+---
+---
+
+<section class="problem" id="problem">
+  <div class="reveal">
+    <div class="section-label">The Broken Status Quo</div>
+    <h2>
+      Every healthcare company is building the same thing from scratch. That
+      needs to stop.
+    </h2>
+  </div>
+  <div class="problem-grid">
+    <div class="problem-card reveal">
+      <h3>18+ months before seeing a patient</h3>
+      <p>
+        You hire DevOps engineers, security architects, and compliance officers —
+        just to build the foundation. Not a single line of product code written.
+      </p>
+    </div>
+    <div class="problem-card reveal">
+      <h3>Compliance is a moving target</h3>
+      <p>
+        HIPAA, SOC 2, state-level regulations — navigated with internal teams or
+        expensive consultants, constantly terrified of an audit finding.
+      </p>
+    </div>
+    <div class="problem-card reveal">
+      <h3>Burning runway while AI passes you by</h3>
+      <p>
+        Millions spent on undifferentiated infrastructure that has nothing to do
+        with patient care — while AI-native companies are already automating the
+        operations you haven't built yet.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .problem {
+    padding: 8rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .problem h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 750px;
+    margin-bottom: 3.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .problem-card {
+    background: linear-gradient(135deg, var(--navy), var(--slate));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 2.5rem;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .problem-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 100, 100, 0.4),
+      transparent
+    );
+    opacity: 0.6;
+  }
+
+  .problem-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .problem-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+  }
+
+  .problem-card p {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  @media (max-width: 968px) {
+    .problem {
+      padding: 5rem 2rem;
+    }
+    .problem-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

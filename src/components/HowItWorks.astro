@@ -1,0 +1,209 @@
+---
+---
+
+<section class="how-it-works" id="how-it-works">
+  <div class="how-it-works-inner">
+    <div class="reveal">
+      <div class="section-label">How It Works</div>
+      <h2>From zero to operational in days, not years.</h2>
+      <p class="how-it-works-sub">
+        Three steps. No infrastructure team required. Enterprise-grade from the
+        moment you deploy.
+      </p>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="step-number">1</div>
+        <div class="step-subtitle">Deploy</div>
+        <div class="step-title">PatientOS Core on AWS</div>
+        <div class="step-desc">
+          Spin up a HIPAA-compliant, SOC 2-ready AWS environment with the
+          PatientOS Core SDK in hours — not months. No DevOps team, no compliance
+          consultants.
+        </div>
+      </div>
+      <div class="process-connector">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><polyline points="9 18 15 12 9 6"></polyline></svg
+        >
+      </div>
+      <div class="process-step">
+        <div class="step-number">2</div>
+        <div class="step-subtitle">Configure</div>
+        <div class="step-title">Your Care Protocols &amp; AI Agents</div>
+        <div class="step-desc">
+          Define your care model, workforce rules, and patient workflows.
+          Configure AI agents to automate scheduling, intake, routing, and
+          follow-ups specific to your operations.
+        </div>
+      </div>
+      <div class="process-connector">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><polyline points="9 18 15 12 9 6"></polyline></svg
+        >
+      </div>
+      <div class="process-step">
+        <div class="step-number">3</div>
+        <div class="step-subtitle">Go Live</div>
+        <div class="step-title">See Your First Patient</div>
+        <div class="step-desc">
+          Launch with enterprise-grade operations your competitors won't have for
+          years. Your AI workforce handles the operational burden. Your team
+          focuses on care.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-it-works {
+    padding: 7rem 4rem;
+    background: linear-gradient(
+      180deg,
+      var(--deep) 0%,
+      rgba(232, 168, 76, 0.03) 50%,
+      var(--deep) 100%
+    );
+  }
+  .how-it-works-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .how-it-works h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 700px;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+  .how-it-works-sub {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    max-width: 580px;
+    line-height: 1.65;
+    margin-bottom: 4rem;
+    font-weight: 300;
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: start;
+  }
+
+  .process-step {
+    background: linear-gradient(135deg, var(--navy), var(--slate));
+    border: 1px solid rgba(232, 168, 76, 0.15);
+    border-radius: 14px;
+    padding: 2.2rem 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .process-step::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--warm-accent), transparent);
+  }
+  .process-step:hover {
+    border-color: rgba(232, 168, 76, 0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(232, 168, 76, 0.08);
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--warm-accent-dim);
+    border: 1.5px solid rgba(232, 168, 76, 0.4);
+    font-family: "DM Serif Display", serif;
+    font-size: 1.2rem;
+    color: var(--warm-accent);
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+  }
+  .step-subtitle {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--warm-accent);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .step-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+  .step-desc {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .process-connector {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 0.75rem;
+    padding-top: 3.8rem;
+    color: var(--warm-accent);
+    opacity: 0.45;
+  }
+  .process-connector svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (max-width: 968px) {
+    .how-it-works {
+      padding: 5rem 2rem;
+    }
+    .process-steps {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .process-connector {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .how-it-works {
+      padding: 5rem 2rem;
+    }
+    .process-steps {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .process-connector {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,119 @@
+---
+---
+
+<section class="why-now" id="why-now">
+  <div class="reveal">
+    <div class="section-label">Why This. Why Now.</div>
+    <h2>The window just opened.</h2>
+  </div>
+  <div class="why-now-grid">
+    <div class="why-now-card reveal">
+      <h3>
+        AI Can Finally Do the Work — and Early Movers Are Already Deploying
+      </h3>
+      <p>
+        LLM-powered agents crossed the reliability threshold for healthcare
+        operations in the last 18 months. The companies moving fastest aren't
+        waiting for perfection — they're deploying now and compounding their
+        operational advantage every month. The gap between AI-native and
+        AI-curious is already widening.
+      </p>
+    </div>
+    <div class="why-now-card reveal">
+      <h3>Digital Health Entered Its Second Wave</h3>
+      <p>
+        The first wave of digital health built point solutions. The second wave
+        is building integrated care companies — and every one of them needs the
+        same compliant, operational core. The market for a shared platform now
+        exists at scale.
+      </p>
+    </div>
+    <div class="why-now-card reveal">
+      <h3>Compliance Is Now a Startup Killer</h3>
+      <p>
+        HIPAA, SOC 2, state-level privacy laws — the regulatory surface area
+        tripled in five years. No seed-stage company should be building this
+        in-house. The ones that try burn 18 months and millions before seeing
+        their first patient.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-now {
+    padding: 8rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .why-now h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white);
+    line-height: 1.15;
+    max-width: 750px;
+    margin-bottom: 3.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .why-now-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .why-now-card {
+    background: linear-gradient(135deg, var(--navy), var(--slate));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 2.5rem;
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .why-now-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 100, 100, 0.4),
+      transparent
+    );
+    opacity: 0.6;
+  }
+
+  .why-now-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .why-now-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+  }
+
+  .why-now-card p {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  @media (max-width: 968px) {
+    .why-now {
+      padding: 5rem 2rem;
+    }
+    .why-now-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

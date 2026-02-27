@@ -1,0 +1,31 @@
+---
+---
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<style>
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--warm-accent));
+    z-index: 102;
+    transition: width 0.1s ease-out;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  const scrollProgress = document.getElementById("scrollProgress");
+  function updateScrollProgress() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    if (scrollProgress) scrollProgress.style.width = pct + "%";
+  }
+  window.addEventListener("scroll", updateScrollProgress, { passive: true });
+</script>

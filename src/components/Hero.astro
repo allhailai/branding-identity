@@ -1,0 +1,118 @@
+---
+---
+
+<section class="hero">
+  <div class="hero-badge">The AI-Native Patient Operating System</div>
+  <h1>
+    The smartest healthcare companies<br />don't build infrastructure.<br
+    />They build on <em>ours.</em>
+  </h1>
+  <p class="hero-sub">
+    Compliant cloud. Core workflows. AI agents that automate scheduling, intake,
+    routing, and the operational burden MCOs have carried for decades — while
+    most companies are still figuring out where AI fits. PatientOS is what the
+    best companies wish they'd had from day one.
+  </p>
+  <div class="hero-actions">
+    <a href="#cta" class="btn-primary">Request a Demo</a>
+    <a href="#solution" class="btn-secondary">See How It Works</a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 6rem;
+    position: relative;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(
+      circle,
+      rgba(62, 232, 181, 0.06) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(62, 232, 181, 0.2);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 2.5rem;
+    background: var(--accent-dim);
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    animation: fadeInDown 0.8s ease-out;
+  }
+
+  .hero-badge::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .hero h1 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(3rem, 6.5vw, 5.5rem);
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 1.8rem;
+    letter-spacing: -0.03em;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    color: var(--text-dim);
+    max-width: 680px;
+    line-height: 1.65;
+    font-weight: 300;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+  }
+
+  @media (max-width: 968px) {
+    .hero {
+      padding: 7rem 1.5rem 4rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
