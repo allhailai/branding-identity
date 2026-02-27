@@ -1,848 +1,996 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Patient Operating System</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --deep: #0a1628;
-            --navy: #111d33;
-            --slate: #1a2a45;
-            --accent: #3ee8b5;
-            --accent-dim: rgba(62, 232, 181, 0.15);
-            --accent-glow: rgba(62, 232, 181, 0.3);
-            --warm: #f0ebe3;
-            --text: #e8e4df;
-            --text-dim: #8a95a8;
-            --white: #ffffff;
+      :root {
+        --deep: #0a1628;
+        --navy: #111d33;
+        --slate: #1a2a45;
+        --accent: #3ee8b5;
+        --accent-dim: rgba(62, 232, 181, 0.15);
+        --accent-glow: rgba(62, 232, 181, 0.3);
+        --warm: #f0ebe3;
+        --text: #e8e4df;
+        --text-dim: #8a95a8;
+        --white: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background: var(--deep);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        padding: 1.5rem 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(10, 22, 40, 0.85);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(62, 232, 181, 0.08);
+      }
+
+      .logo {
+        font-family: "DM Serif Display", serif;
+        font-size: 1.4rem;
+        color: var(--white);
+        letter-spacing: -0.02em;
+      }
+
+      .logo span {
+        color: var(--accent);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--text-dim);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 400;
+        transition: color 0.3s;
+        letter-spacing: 0.02em;
+      }
+
+      .nav-links a:hover {
+        color: var(--white);
+      }
+
+      .nav-cta {
+        background: var(--accent) !important;
+        color: var(--deep) !important;
+        padding: 0.6rem 1.6rem;
+        border-radius: 6px;
+        font-weight: 600 !important;
+        font-size: 0.85rem !important;
+        transition: all 0.3s !important;
+      }
+
+      .nav-cta:hover {
+        box-shadow: 0 0 24px var(--accent-glow);
+        transform: translateY(-1px);
+      }
+
+      /* HERO */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 8rem 2rem 6rem;
+        position: relative;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(
+          circle,
+          rgba(62, 232, 181, 0.06) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.2rem;
+        border: 1px solid rgba(62, 232, 181, 0.2);
+        border-radius: 50px;
+        font-size: 0.8rem;
+        color: var(--accent);
+        margin-bottom: 2.5rem;
+        background: var(--accent-dim);
+        letter-spacing: 0.04em;
+        font-weight: 500;
+        animation: fadeInDown 0.8s ease-out;
+      }
+
+      .hero-badge::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--deep);
-            color: var(--text);
-            overflow-x: hidden;
+        50% {
+          opacity: 0.4;
         }
+      }
 
-        /* NAV */
+      .hero h1 {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(3rem, 6.5vw, 5.5rem);
+        line-height: 1.05;
+        color: var(--white);
+        margin-bottom: 1.8rem;
+        letter-spacing: -0.03em;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+      }
+
+      .hero h1 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      .hero-sub {
+        font-size: clamp(1.1rem, 2vw, 1.35rem);
+        color: var(--text-dim);
+        max-width: 680px;
+        line-height: 1.65;
+        font-weight: 300;
+        margin-bottom: 3rem;
+        animation: fadeInUp 0.8s ease-out 0.4s both;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        animation: fadeInUp 0.8s ease-out 0.6s both;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: var(--deep);
+        padding: 1rem 2.4rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 0 40px var(--accent-glow);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        padding: 1rem 2.4rem;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .btn-secondary:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* TRUST BAR */
+      .trust-bar {
+        padding: 3rem 4rem;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .trust-bar p {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--text-dim);
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+      }
+
+      .trust-logos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3.5rem;
+        flex-wrap: wrap;
+      }
+
+      .trust-logos span {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.25);
+        font-weight: 600;
+        letter-spacing: 0.08em;
+      }
+
+      /* PROBLEM SECTION */
+      .problem {
+        padding: 8rem 4rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+
+      .problem h2 {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--white);
+        line-height: 1.15;
+        max-width: 750px;
+        margin-bottom: 3.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .problem-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .problem-card {
+        background: linear-gradient(135deg, var(--navy), var(--slate));
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 2.5rem;
+        transition: all 0.4s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .problem-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 100, 100, 0.4),
+          transparent
+        );
+        opacity: 0.6;
+      }
+
+      .problem-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .problem-icon {
+        font-size: 1.8rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .problem-card h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+        color: var(--white);
+      }
+
+      .problem-card p {
+        font-size: 0.95rem;
+        color: var(--text-dim);
+        line-height: 1.6;
+        font-weight: 300;
+      }
+
+      /* SOLUTION SECTION */
+      .solution {
+        padding: 8rem 4rem;
+        background: linear-gradient(
+          180deg,
+          var(--deep) 0%,
+          rgba(62, 232, 181, 0.03) 50%,
+          var(--deep) 100%
+        );
+      }
+
+      .solution-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .solution h2 {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--white);
+        line-height: 1.15;
+        max-width: 800px;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .solution-subtitle {
+        font-size: 1.15rem;
+        color: var(--text-dim);
+        max-width: 650px;
+        line-height: 1.7;
+        margin-bottom: 4rem;
+        font-weight: 300;
+      }
+
+      .solution-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+      }
+
+      .ninety-ten {
+        position: relative;
+      }
+
+      .ninety-block,
+      .ten-block {
+        border-radius: 16px;
+        padding: 2.5rem;
+        position: relative;
+      }
+
+      .ninety-block {
+        background: linear-gradient(135deg, var(--navy), var(--slate));
+        border: 1px solid rgba(62, 232, 181, 0.15);
+        margin-bottom: 1.5rem;
+      }
+
+      .ninety-block::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent), transparent);
+      }
+
+      .ten-block {
+        background: linear-gradient(135deg, var(--navy), var(--slate));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .block-label {
+        font-size: 3rem;
+        font-family: "DM Serif Display", serif;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      .ten-block .block-label {
+        color: var(--white);
+      }
+
+      .block-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin-bottom: 0.8rem;
+        color: var(--white);
+      }
+
+      .block-desc {
+        font-size: 0.95rem;
+        color: var(--text-dim);
+        line-height: 1.65;
+        font-weight: 300;
+      }
+
+      .solution-features {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .feature-item {
+        display: flex;
+        gap: 1.2rem;
+        align-items: flex-start;
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        border-radius: 12px;
+        background: var(--accent-dim);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+      }
+
+      .feature-item h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: var(--white);
+      }
+
+      .feature-item p {
+        font-size: 0.9rem;
+        color: var(--text-dim);
+        line-height: 1.55;
+        font-weight: 300;
+      }
+
+      /* QUOTE / SOCIAL PROOF */
+      .quote-section {
+        padding: 6rem 4rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .quote-section::before {
+        content: '"';
+        font-family: "DM Serif Display", serif;
+        font-size: 12rem;
+        color: rgba(62, 232, 181, 0.06);
+        position: absolute;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        line-height: 1;
+      }
+
+      .quote-text {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        color: var(--white);
+        max-width: 800px;
+        margin: 0 auto 1.5rem;
+        line-height: 1.45;
+        font-style: italic;
+      }
+
+      .quote-attr {
+        font-size: 0.9rem;
+        color: var(--text-dim);
+        font-weight: 400;
+      }
+
+      .quote-attr strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* FOR PE SECTION */
+      .pe-section {
+        padding: 8rem 4rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .pe-section h2 {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        color: var(--white);
+        line-height: 1.15;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .pe-subtitle {
+        font-size: 1.15rem;
+        color: var(--text-dim);
+        max-width: 600px;
+        line-height: 1.7;
+        margin-bottom: 4rem;
+        font-weight: 300;
+      }
+
+      .pe-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+
+      .pe-card {
+        background: linear-gradient(135deg, var(--navy), var(--slate));
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 2.5rem 2rem;
+        text-align: center;
+        transition: all 0.4s;
+      }
+
+      .pe-card:hover {
+        border-color: rgba(62, 232, 181, 0.2);
+        transform: translateY(-4px);
+      }
+
+      .pe-stat {
+        font-family: "DM Serif Display", serif;
+        font-size: 2.5rem;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      .pe-label {
+        font-size: 0.9rem;
+        color: var(--text-dim);
+        font-weight: 400;
+        line-height: 1.5;
+      }
+
+      /* CTA SECTION */
+      .cta-section {
+        padding: 8rem 4rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .cta-section::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(62, 232, 181, 0.08) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      .cta-section h2 {
+        font-family: "DM Serif Display", serif;
+        font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+        color: var(--white);
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .cta-section p {
+        font-size: 1.15rem;
+        color: var(--text-dim);
+        margin-bottom: 2.5rem;
+        font-weight: 300;
+      }
+
+      .cta-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      /* FOOTER */
+      footer {
+        padding: 4rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .footer-logo {
+        font-family: "DM Serif Display", serif;
+        font-size: 1.2rem;
+        color: var(--white);
+      }
+
+      .footer-logo span {
+        color: var(--accent);
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .footer-links a {
+        color: var(--text-dim);
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: var(--white);
+      }
+
+      .footer-copy {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 968px) {
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
-            padding: 1.5rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 22, 40, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(62, 232, 181, 0.08);
+          padding: 1.2rem 2rem;
         }
-
-        .logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.4rem;
-            color: var(--white);
-            letter-spacing: -0.02em;
-        }
-
-        .logo span { color: var(--accent); }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 400;
-            transition: color 0.3s;
-            letter-spacing: 0.02em;
-        }
-
-        .nav-links a:hover { color: var(--white); }
-
-        .nav-cta {
-            background: var(--accent) !important;
-            color: var(--deep) !important;
-            padding: 0.6rem 1.6rem;
-            border-radius: 6px;
-            font-weight: 600 !important;
-            font-size: 0.85rem !important;
-            transition: all 0.3s !important;
-        }
-
-        .nav-cta:hover {
-            box-shadow: 0 0 24px var(--accent-glow);
-            transform: translateY(-1px);
-        }
-
-        /* HERO */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 8rem 2rem 6rem;
-            position: relative;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(62, 232, 181, 0.06) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1.2rem;
-            border: 1px solid rgba(62, 232, 181, 0.2);
-            border-radius: 50px;
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin-bottom: 2.5rem;
-            background: var(--accent-dim);
-            letter-spacing: 0.04em;
-            font-weight: 500;
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        .hero-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .hero h1 {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(3rem, 6.5vw, 5.5rem);
-            line-height: 1.05;
-            color: var(--white);
-            margin-bottom: 1.8rem;
-            letter-spacing: -0.03em;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        .hero h1 em {
-            font-style: italic;
-            color: var(--accent);
-        }
-
-        .hero-sub {
-            font-size: clamp(1.1rem, 2vw, 1.35rem);
-            color: var(--text-dim);
-            max-width: 680px;
-            line-height: 1.65;
-            font-weight: 300;
-            margin-bottom: 3rem;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            animation: fadeInUp 0.8s ease-out 0.6s both;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: var(--deep);
-            padding: 1rem 2.4rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 0 40px var(--accent-glow);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            padding: 1rem 2.4rem;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.3s;
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-
-        .btn-secondary:hover {
-            border-color: rgba(255,255,255,0.4);
-            background: rgba(255,255,255,0.04);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* TRUST BAR */
-        .trust-bar {
-            padding: 3rem 4rem;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.04);
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-
-        .trust-bar p {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-dim);
-            margin-bottom: 1.5rem;
-            font-weight: 500;
-        }
-
-        .trust-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3.5rem;
-            flex-wrap: wrap;
-        }
-
-        .trust-logos span {
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.25);
-            font-weight: 600;
-            letter-spacing: 0.08em;
-        }
-
-        /* PROBLEM SECTION */
-        .problem {
-            padding: 8rem 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-
-        .problem h2 {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--white);
-            line-height: 1.15;
-            max-width: 750px;
-            margin-bottom: 3.5rem;
-            letter-spacing: -0.02em;
-        }
-
         .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+          grid-template-columns: 1fr;
         }
-
-        .problem-card {
-            background: linear-gradient(135deg, var(--navy), var(--slate));
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            padding: 2.5rem;
-            transition: all 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .problem-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,100,100,0.4), transparent);
-            opacity: 0.6;
-        }
-
-        .problem-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(255,255,255,0.1);
-        }
-
-        .problem-icon {
-            font-size: 1.8rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .problem-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            color: var(--white);
-        }
-
-        .problem-card p {
-            font-size: 0.95rem;
-            color: var(--text-dim);
-            line-height: 1.6;
-            font-weight: 300;
-        }
-
-        /* SOLUTION SECTION */
-        .solution {
-            padding: 8rem 4rem;
-            background: linear-gradient(180deg, var(--deep) 0%, rgba(62, 232, 181, 0.03) 50%, var(--deep) 100%);
-        }
-
-        .solution-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .solution h2 {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--white);
-            line-height: 1.15;
-            max-width: 800px;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .solution-subtitle {
-            font-size: 1.15rem;
-            color: var(--text-dim);
-            max-width: 650px;
-            line-height: 1.7;
-            margin-bottom: 4rem;
-            font-weight: 300;
-        }
-
         .solution-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
+          grid-template-columns: 1fr;
         }
-
-        .ninety-ten {
-            position: relative;
-        }
-
-        .ninety-block, .ten-block {
-            border-radius: 16px;
-            padding: 2.5rem;
-            position: relative;
-        }
-
-        .ninety-block {
-            background: linear-gradient(135deg, var(--navy), var(--slate));
-            border: 1px solid rgba(62, 232, 181, 0.15);
-            margin-bottom: 1.5rem;
-        }
-
-        .ninety-block::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent), transparent);
-        }
-
-        .ten-block {
-            background: linear-gradient(135deg, var(--navy), var(--slate));
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .block-label {
-            font-size: 3rem;
-            font-family: 'DM Serif Display', serif;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-        }
-
-        .ten-block .block-label {
-            color: var(--white);
-        }
-
-        .block-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            color: var(--white);
-        }
-
-        .block-desc {
-            font-size: 0.95rem;
-            color: var(--text-dim);
-            line-height: 1.65;
-            font-weight: 300;
-        }
-
-        .solution-features {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .feature-item {
-            display: flex;
-            gap: 1.2rem;
-            align-items: flex-start;
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-            border-radius: 12px;
-            background: var(--accent-dim);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .feature-item h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-            color: var(--white);
-        }
-
-        .feature-item p {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            line-height: 1.55;
-            font-weight: 300;
-        }
-
-        /* QUOTE / SOCIAL PROOF */
-        .quote-section {
-            padding: 6rem 4rem;
-            text-align: center;
-            position: relative;
-        }
-
-        .quote-section::before {
-            content: '"';
-            font-family: 'DM Serif Display', serif;
-            font-size: 12rem;
-            color: rgba(62, 232, 181, 0.06);
-            position: absolute;
-            top: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            line-height: 1;
-        }
-
-        .quote-text {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(1.4rem, 3vw, 2rem);
-            color: var(--white);
-            max-width: 800px;
-            margin: 0 auto 1.5rem;
-            line-height: 1.45;
-            font-style: italic;
-        }
-
-        .quote-attr {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            font-weight: 400;
-        }
-
-        .quote-attr strong {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* FOR PE SECTION */
-        .pe-section {
-            padding: 8rem 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .pe-section h2 {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--white);
-            line-height: 1.15;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .pe-subtitle {
-            font-size: 1.15rem;
-            color: var(--text-dim);
-            max-width: 600px;
-            line-height: 1.7;
-            margin-bottom: 4rem;
-            font-weight: 300;
-        }
-
         .pe-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
+          grid-template-columns: repeat(2, 1fr);
         }
-
-        .pe-card {
-            background: linear-gradient(135deg, var(--navy), var(--slate));
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: all 0.4s;
+        .hero {
+          padding: 7rem 1.5rem 4rem;
         }
-
-        .pe-card:hover {
-            border-color: rgba(62, 232, 181, 0.2);
-            transform: translateY(-4px);
+        .problem,
+        .solution,
+        .pe-section {
+          padding: 5rem 2rem;
         }
+      }
 
-        .pe-stat {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+      @media (max-width: 600px) {
+        .nav-links a:not(.nav-cta) {
+          display: none;
         }
-
-        .pe-label {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            font-weight: 400;
-            line-height: 1.5;
+        .pe-grid {
+          grid-template-columns: 1fr;
         }
-
-        /* CTA SECTION */
-        .cta-section {
-            padding: 8rem 4rem;
-            text-align: center;
-            position: relative;
+        .hero-actions {
+          flex-direction: column;
+          align-items: center;
         }
-
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(62, 232, 181, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .cta-section h2 {
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-            color: var(--white);
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .cta-section p {
-            font-size: 1.15rem;
-            color: var(--text-dim);
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-        }
-
         .cta-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
+          flex-direction: column;
+          align-items: center;
         }
-
-        /* FOOTER */
         footer {
-            padding: 4rem;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
+          flex-direction: column;
+          gap: 1.5rem;
+          text-align: center;
         }
+      }
 
-        .footer-logo {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.2rem;
-            color: var(--white);
-        }
+      /* SCROLL ANIMATIONS */
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition:
+          opacity 0.7s ease-out,
+          transform 0.7s ease-out;
+      }
 
-        .footer-logo span { color: var(--accent); }
-
-        .footer-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .footer-links a {
-            color: var(--text-dim);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover { color: var(--white); }
-
-        .footer-copy {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.2);
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 968px) {
-            nav { padding: 1.2rem 2rem; }
-            .problem-grid { grid-template-columns: 1fr; }
-            .solution-columns { grid-template-columns: 1fr; }
-            .pe-grid { grid-template-columns: repeat(2, 1fr); }
-            .hero { padding: 7rem 1.5rem 4rem; }
-            .problem, .solution, .pe-section { padding: 5rem 2rem; }
-        }
-
-        @media (max-width: 600px) {
-            .nav-links a:not(.nav-cta) { display: none; }
-            .pe-grid { grid-template-columns: 1fr; }
-            .hero-actions { flex-direction: column; align-items: center; }
-            .cta-actions { flex-direction: column; align-items: center; }
-            footer { flex-direction: column; gap: 1.5rem; text-align: center; }
-        }
-
-        /* SCROLL ANIMATIONS */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- NAV -->
     <nav>
-        <div class="logo">Patient<span>OS</span></div>
-        <div class="nav-links">
-            <a href="#problem">The Problem</a>
-            <a href="#solution">Platform</a>
-            <a href="#investors">Investors</a>
-            <a href="#cta" class="nav-cta">Request a Demo</a>
-        </div>
+      <div class="logo">Patient<span>OS</span></div>
+      <div class="nav-links">
+        <a href="#problem">The Problem</a>
+        <a href="#solution">Platform</a>
+        <a href="#investors">Investors</a>
+        <a href="#cta" class="nav-cta">Request a Demo</a>
+      </div>
     </nav>
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-badge">The Patient Operating System</div>
-        <h1>Ready to stop building<br>and start <em>caring?</em></h1>
-        <p class="hero-sub">We codified what the best patient-facing companies took years to learn — and made it a platform. Compliant infrastructure, core SDK, and an AI workforce. Ready on day one.</p>
-        <div class="hero-actions">
-            <a href="#cta" class="btn-primary">Request a Demo</a>
-            <a href="#solution" class="btn-secondary">See How It Works</a>
-        </div>
+      <div class="hero-badge">The Patient Operating System</div>
+      <h1>Ready to stop building<br />and start <em>caring?</em></h1>
+      <p class="hero-sub">
+        We codified what the best patient-facing companies took years to learn —
+        and made it a platform. Compliant infrastructure, core SDK, and an AI
+        workforce. Ready on day one.
+      </p>
+      <div class="hero-actions">
+        <a href="#cta" class="btn-primary">Request a Demo</a>
+        <a href="#solution" class="btn-secondary">See How It Works</a>
+      </div>
     </section>
 
     <!-- TRUST BAR -->
     <div class="trust-bar">
-        <p>Built for compliance-first healthcare companies</p>
-        <div class="trust-logos">
-            <span>HIPAA</span>
-            <span>SOC 2</span>
-            <span>AWS</span>
-        </div>
+      <p>Built for compliance-first healthcare companies</p>
+      <div class="trust-logos">
+        <span>HIPAA</span>
+        <span>SOC 2</span>
+        <span>AWS</span>
+      </div>
     </div>
 
     <!-- PROBLEM SECTION -->
     <section class="problem" id="problem">
-        <div class="reveal">
-            <div class="section-label">The Broken Status Quo</div>
-            <h2>Every healthcare company is building the same thing from scratch. That needs to stop.</h2>
+      <div class="reveal">
+        <div class="section-label">The Broken Status Quo</div>
+        <h2>
+          Every healthcare company is building the same thing from scratch. That
+          needs to stop.
+        </h2>
+      </div>
+      <div class="problem-grid">
+        <div class="problem-card reveal">
+          <h3>18+ months before seeing a patient</h3>
+          <p>
+            You hire DevOps engineers, security architects, and compliance
+            officers — just to build the foundation. Not a single line of
+            product code written.
+          </p>
         </div>
-        <div class="problem-grid">
-            <div class="problem-card reveal">
-                <h3>18+ months before seeing a patient</h3>
-                <p>You hire DevOps engineers, security architects, and compliance officers — just to build the foundation. Not a single line of product code written.</p>
-            </div>
-            <div class="problem-card reveal">
-                <h3>Compliance is a moving target</h3>
-                <p>HIPAA, HITRUST, SOC 2, state-level regulations — navigated with internal teams or expensive consultants, constantly terrified of an audit finding.</p>
-            </div>
-            <div class="problem-card reveal">
-                <h3>Burning runway on the wrong things</h3>
-                <p>Millions spent on undifferentiated infrastructure that has nothing to do with patient care — diverting capital and talent from what actually matters.</p>
-            </div>
+        <div class="problem-card reveal">
+          <h3>Compliance is a moving target</h3>
+          <p>
+            HIPAA, SOC 2, state-level regulations — navigated with
+            internal teams or expensive consultants, constantly terrified of an
+            audit finding.
+          </p>
         </div>
+        <div class="problem-card reveal">
+          <h3>Burning runway on the wrong things</h3>
+          <p>
+            Millions spent on undifferentiated infrastructure that has nothing
+            to do with patient care — diverting capital and talent from what
+            actually matters.
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- SOLUTION SECTION -->
     <section class="solution" id="solution">
-        <div class="solution-inner">
-            <div class="reveal">
-                <div class="section-label">The Platform</div>
-                <h2>Everything a patient-facing company needs to operate. Out of the box.</h2>
-                <p class="solution-subtitle">Our Core SDK handles 90% of what all patient-facing companies need. You focus on building the 10% that makes your care model unique.</p>
-            </div>
-            <div class="solution-columns">
-                <div class="ninety-ten reveal">
-                    <div class="ninety-block">
-                        <div class="block-label">90%</div>
-                        <div class="block-title">We handle this.</div>
-                        <div class="block-desc">Workflows, tasks, queues, Patient Status Journey (PSJ), compliance posture, secure AWS infrastructure, and AI agents that automate your operations — all in our Core SDK, ready to deploy.</div>
-                    </div>
-                    <div class="ten-block">
-                        <div class="block-label">10%</div>
-                        <div class="block-title">You build this.</div>
-                        <div class="block-desc">The last mile that makes you different — your specific care protocols, workforce configurations, and patient experiences that define your brand.</div>
-                    </div>
-                </div>
-                <div class="solution-features reveal">
-                    <div class="feature-item">
-                        <div class="feature-icon">⚡</div>
-                        <div>
-                            <h4>Core SDK</h4>
-                            <p>Workflows, tasks, queues, and Patient Status Journey — the operational backbone every healthcare company needs, codified and ready.</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">🛡</div>
-                        <div>
-                            <h4>Compliant Infrastructure</h4>
-                            <p>HIPAA, and SOC 2 compliant AWS environment. Encryption, logging, access controls, BAAs, and audit trails — configured from day one.</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">🤖</div>
-                        <div>
-                            <h4>Agentic AI Workforce</h4>
-                            <p>Autonomous agents that run your business processes — scheduling, routing, intake, follow-ups — so your human team focuses on care.</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">🚀</div>
-                        <div>
-                            <h4>Operational on Day One</h4>
-                            <p>Go live with the operational maturity most healthcare companies take years to reach. No engineering team required.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="solution-inner">
+        <div class="reveal">
+          <div class="section-label">The Platform</div>
+          <h2>
+            Meet PatientOS — everything a patient-facing company needs to
+            operate. Out of the box.
+          </h2>
+          <p class="solution-subtitle">
+            Our Core SDK handles 90% of what all patient-facing companies need.
+            You focus on building the 10% that makes your care model unique.
+          </p>
         </div>
+        <div class="solution-columns">
+          <div class="ninety-ten reveal">
+            <div class="ninety-block">
+              <div class="block-label">90%</div>
+              <div class="block-title">We handle this.</div>
+              <div class="block-desc">
+                Workflows, tasks, queues, Patient Status Journey (PSJ),
+                compliance posture, secure AWS infrastructure, and AI agents
+                that automate your operations — all in our Core SDK, ready to
+                deploy.
+              </div>
+            </div>
+            <div class="ten-block">
+              <div class="block-label">10%</div>
+              <div class="block-title">You build this.</div>
+              <div class="block-desc">
+                The last mile that makes you different — your specific care
+                protocols, workforce configurations, and patient experiences
+                that define your brand.
+              </div>
+            </div>
+          </div>
+          <div class="solution-features reveal">
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <div>
+                <h4>Core SDK</h4>
+                <p>
+                  Workflows, tasks, queues, and Patient Status Journey — the
+                  operational backbone every healthcare company needs, codified
+                  and ready.
+                </p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🛡</div>
+              <div>
+                <h4>Compliant Infrastructure</h4>
+                <p>
+                  HIPAA, and SOC 2 compliant AWS environment.
+                  Encryption, logging, access controls, BAAs, and audit trails —
+                  configured from day one.
+                </p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🤖</div>
+              <div>
+                <h4>Agentic AI Workforce</h4>
+                <p>
+                  Autonomous agents that run your business processes —
+                  scheduling, routing, intake, follow-ups — so your human team
+                  focuses on care.
+                </p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🚀</div>
+              <div>
+                <h4>Operational on Day One</h4>
+                <p>
+                  Go live with the operational maturity most healthcare
+                  companies take years to reach. No engineering team required.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- QUOTE -->
     <section class="quote-section reveal">
-        <p class="quote-text">Healthcare companies shouldn't be infrastructure companies. We built the foundation — so they can build the future.</p>
-        <p class="quote-attr"><strong>PatientOS</strong> — Focus on patients. We'll handle the rest.</p>
+      <p class="quote-text">
+        Healthcare companies shouldn't be infrastructure companies. We built the
+        foundation — so they can build the future.
+      </p>
+      <p class="quote-attr">
+        <strong>PatientOS</strong> — Focus on patients. We'll handle the rest.
+      </p>
     </section>
 
     <!-- PE / INVESTOR SECTION -->
     <section class="pe-section" id="investors">
-        <div class="reveal">
-            <div class="section-label">For Investors & Portfolio Companies</div>
-            <h2>The operational expertise of a 10-year-old healthcare company, available on day one.</h2>
-            <p class="pe-subtitle">We compress time-to-value, reduce engineering headcount, and deliver enterprise-grade compliance — as a subscription.</p>
+      <div class="reveal">
+        <div class="section-label">For Investors & Portfolio Companies</div>
+        <h2>
+          The operational expertise of a 10-year-old healthcare company,
+          available on day one.
+        </h2>
+        <p class="pe-subtitle">
+          We compress time-to-value, reduce engineering headcount, and deliver
+          enterprise-grade compliance — as a subscription.
+        </p>
+      </div>
+      <div class="pe-grid reveal">
+        <div class="pe-card">
+          <div class="pe-stat">10×</div>
+          <div class="pe-label">Faster time to operational readiness</div>
         </div>
-        <div class="pe-grid reveal">
-            <div class="pe-card">
-                <div class="pe-stat">10×</div>
-                <div class="pe-label">Faster time to operational readiness</div>
-            </div>
-            <div class="pe-card">
-                <div class="pe-stat">90%</div>
-                <div class="pe-label">Of core operations handled out of the box</div>
-            </div>
-            <div class="pe-card">
-                <div class="pe-stat">$0</div>
-                <div class="pe-label">Spent on compliance infrastructure builds</div>
-            </div>
-            <div class="pe-card">
-                <div class="pe-stat">Day 1</div>
-                <div class="pe-label">Compliant, operational, with AI agents running</div>
-            </div>
+        <div class="pe-card">
+          <div class="pe-stat">90%</div>
+          <div class="pe-label">Of core operations handled out of the box</div>
         </div>
+        <div class="pe-card">
+          <div class="pe-stat">$0</div>
+          <div class="pe-label">Spent on compliance infrastructure builds</div>
+        </div>
+        <div class="pe-card">
+          <div class="pe-stat">Day 1</div>
+          <div class="pe-label">
+            Compliant, operational, with AI agents running
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- CTA -->
     <section class="cta-section" id="cta">
-        <h2>Your patients are waiting.<br>Your infrastructure shouldn't be.</h2>
-        <p>See how PatientOS gets your company operational in weeks, not years.</p>
-        <div class="cta-actions">
-            <a href="#" class="btn-primary">Request a Demo</a>
-            <a href="#" class="btn-secondary">Talk to Our Team</a>
-        </div>
+      <h2>Your patients are waiting.<br />Your infrastructure shouldn't be.</h2>
+      <p>
+        See how PatientOS gets your company operational in weeks, not years.
+      </p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary">Request a Demo</a>
+        <a href="#" class="btn-secondary">Talk to Our Team</a>
+      </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-logo">Patient<span>OS</span></div>
-        <div class="footer-links">
-            <a href="#">Platform</a>
-            <a href="#">Documentation</a>
-            <a href="#">Security</a>
-            <a href="#">Contact</a>
-        </div>
-        <div class="footer-copy">© 2026 PatientOS. All rights reserved.</div>
+      <div class="footer-logo">Patient<span>OS</span></div>
+      <div class="footer-links">
+        <a href="#">Platform</a>
+        <a href="#">Documentation</a>
+        <a href="#">Security</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-copy">© 2026 PatientOS. All rights reserved.</div>
     </footer>
 
     <script>
-        // Scroll reveal
-        const reveals = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.15 });
+      // Scroll reveal
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.15 },
+      );
 
-        reveals.forEach(el => observer.observe(el));
+      reveals.forEach((el) => observer.observe(el));
     </script>
-
-</body>
+  </body>
 </html>
