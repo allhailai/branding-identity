@@ -1,0 +1,260 @@
+---
+---
+
+<section class="escape-hatch">
+  <div class="escape-hatch-inner reveal">
+    <div class="escape-hatch-content">
+      <div class="escape-hatch-label">The Build-It-Yourself Math</div>
+      <h2>You could build this yourself.</h2>
+      <p>
+        It'll take 18 months, $2M+, a DevOps team, a security architect, a
+        compliance officer, and an AI engineering team you haven't hired yet.
+        And when you're done, you'll have built exactly what already exists —
+        except your competitors will have spent those 18 months seeing patients.
+      </p>
+      <p class="escape-hatch-kicker">
+        The companies that chose to build it themselves are the ones getting
+        lapped right now. The ones that didn't are already live.
+      </p>
+      <a href="#cta" class="btn-primary">See how fast you could launch</a>
+    </div>
+    <div class="escape-hatch-vs">
+      <div class="vs-column vs-build">
+        <div class="vs-header">Build it yourself</div>
+        <ul class="vs-list">
+          <li>
+            <span class="vs-icon vs-icon-bad">✕</span>
+            18+ months to first patient
+          </li>
+          <li>
+            <span class="vs-icon vs-icon-bad">✕</span>
+            $2M+ in undifferentiated engineering
+          </li>
+          <li>
+            <span class="vs-icon vs-icon-bad">✕</span>
+            5+ specialized hires before launch
+          </li>
+          <li>
+            <span class="vs-icon vs-icon-bad">✕</span>
+            Compliance risk you own forever
+          </li>
+          <li>
+            <span class="vs-icon vs-icon-bad">✕</span>
+            AI roadmap starts at month 24
+          </li>
+        </ul>
+      </div>
+      <div class="vs-divider">or</div>
+      <div class="vs-column vs-patientos">
+        <div class="vs-header">PatientOS</div>
+        <ul class="vs-list">
+          <li>
+            <span class="vs-icon vs-icon-good">✓</span>
+            Live in weeks, not years
+          </li>
+          <li>
+            <span class="vs-icon vs-icon-good">✓</span>
+            $0 spent on compliance infrastructure
+          </li>
+          <li>
+            <span class="vs-icon vs-icon-good">✓</span>
+            No specialized hires required
+          </li>
+          <li>
+            <span class="vs-icon vs-icon-good">✓</span>
+            HIPAA + SOC 2 from day one
+          </li>
+          <li>
+            <span class="vs-icon vs-icon-good">✓</span>
+            AI agents running operations on day one
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .escape-hatch {
+    padding: 6rem 4rem;
+    background: linear-gradient(
+      135deg,
+      rgba(10, 22, 40, 0.95) 0%,
+      rgba(17, 29, 51, 0.98) 100%
+    );
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .escape-hatch-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .escape-hatch-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--warm-accent);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .escape-hatch-content h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .escape-hatch-content p {
+    font-size: 1rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+
+  .escape-hatch-kicker {
+    font-size: 0.95rem !important;
+    color: rgba(255, 255, 255, 0.55) !important;
+    font-style: italic;
+    border-left: 2px solid var(--warm-accent);
+    padding-left: 1rem;
+    margin-bottom: 2rem !important;
+  }
+
+  /* VS comparison panel */
+  .escape-hatch-vs {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .vs-column {
+    flex: 1;
+    padding: 2rem 1.75rem;
+  }
+
+  .vs-build {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 80, 80, 0.06),
+      rgba(255, 80, 80, 0.02)
+    );
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .vs-patientos {
+    background: linear-gradient(
+      135deg,
+      rgba(62, 232, 181, 0.08),
+      rgba(62, 232, 181, 0.03)
+    );
+  }
+
+  .vs-header {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .vs-build .vs-header {
+    color: rgba(255, 100, 100, 0.7);
+  }
+
+  .vs-patientos .vs-header {
+    color: var(--accent);
+  }
+
+  .vs-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.75rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+    writing-mode: vertical-rl;
+    min-width: 2rem;
+  }
+
+  .vs-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .vs-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.45;
+    font-weight: 300;
+  }
+
+  .vs-icon {
+    font-size: 0.75rem;
+    font-weight: 700;
+    min-width: 16px;
+    margin-top: 0.1rem;
+    font-style: normal;
+  }
+
+  .vs-icon-bad {
+    color: rgba(255, 100, 100, 0.7);
+  }
+
+  .vs-icon-good {
+    color: var(--accent);
+  }
+
+  @media (max-width: 968px) {
+    .escape-hatch {
+      padding: 4rem 2rem;
+    }
+
+    .escape-hatch-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .escape-hatch-vs {
+      flex-direction: column;
+    }
+
+    .vs-build {
+      border-right: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .vs-divider {
+      writing-mode: horizontal-tb;
+      padding: 0.5rem;
+      min-width: unset;
+    }
+  }
+</style>
