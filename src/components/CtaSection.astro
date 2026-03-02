@@ -1,65 +1,252 @@
 ---
+
 ---
 
-<section class="cta-section" id="cta">
-  <h2>Your patients are waiting.<br />Your infrastructure shouldn't be.</h2>
-  <p>
-    See how PatientOS gets your company operational in weeks, not years.
-  </p>
-  <div class="cta-actions">
-    <a href="#" class="btn-primary">Request a Demo</a>
-    <a href="#" class="btn-secondary">Talk to Our Team</a>
+<div class="cta-section" id="cta">
+  <div class="cta-wrapper reveal-scale visible">
+    <div class="cta-orb-1"></div>
+    <div class="cta-orb-2"></div>
+    <div class="cta-title">Your patients are waiting. Your infrastructure shouldn't be.</div>
+    <p class="cta-desc">See how PatientOS gets your company operational in weeks, not years.</p>
+    <div class="cta-buttons">
+      <a href="#" class="cta-btn-primary">Request a Demo <span class="arrow">→</span></a>
+      <a href="#" class="cta-btn-outline">Talk to Our Team</a>
+    </div>
   </div>
-</section>
+</div>
 
 <style>
   .cta-section {
-    padding: 8rem 4rem;
+    padding: 120px 48px;
+    max-width: 1280px;
+    margin: 0 auto;
     text-align: center;
-    position: relative;
   }
 
-  .cta-section::before {
+  .cta-wrapper {
+    background: linear-gradient(
+      135deg,
+      rgba(74, 234, 188, 0.04) 0%,
+      rgba(74, 234, 188, 0.01) 100%
+    );
+    border: 1px solid rgba(74, 234, 188, 0.1);
+    border-radius: 28px;
+    padding: 80px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-orb-1 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: -150px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(74, 234, 188, 0.09) 0%, transparent 70%);
+    pointer-events: none;
+    animation: ctaOrbFloat1 10s ease-in-out infinite;
+  }
+
+  .cta-orb-2 {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    left: -50px;
+    background: radial-gradient(circle, rgba(74, 234, 188, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+    animation: ctaOrbFloat2 8s ease-in-out infinite;
+  }
+
+  @keyframes ctaOrbFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-80px, 50px) scale(1.15); }
+  }
+
+  @keyframes ctaOrbFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, -60px) scale(1.1); }
+  }
+
+  @property --cta-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes rotateCta {
+    to { --cta-angle: 360deg; }
+  }
+
+  .cta-wrapper::before {
     content: "";
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(
-      circle,
-      rgba(62, 232, 181, 0.08) 0%,
-      transparent 70%
+    inset: -1px;
+    border-radius: 28px;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--cta-angle, 0deg),
+      transparent 25%,
+      rgba(74, 234, 188, 0.35) 50%,
+      transparent 75%
     );
-    pointer-events: none;
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: rotateCta 5s linear infinite;
   }
 
-  .cta-section h2 {
+  .cta-title {
     font-family: "DM Serif Display", serif;
-    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-    color: var(--white);
-    margin-bottom: 1.5rem;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    line-height: 1.12;
     letter-spacing: -0.02em;
+    color: #e8eaf0;
+    max-width: 780px;
+    margin: 0 auto 16px;
+    position: relative;
+    z-index: 1;
   }
 
-  .cta-section p {
-    font-size: 1.15rem;
-    color: var(--text-dim);
-    margin-bottom: 2.5rem;
+  .cta-desc {
+    font-size: 1.05rem;
+    color: #8a8fa8;
+    max-width: 620px;
+    line-height: 1.7;
     font-weight: 300;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 1;
   }
 
-  .cta-actions {
+  .cta-buttons {
     display: flex;
+    gap: 16px;
     justify-content: center;
-    gap: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Primary button */
+  .cta-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: #4aeabc;
+    color: #0a0e1a;
+    font-family: "Outfit", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    bottom: 0;
+    width: 60%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-20deg);
+    animation: ctaShimmer 2.5s infinite;
+  }
+
+  @keyframes ctaShimmer {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+
+  .cta-btn-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow:
+      0 8px 32px rgba(74, 234, 188, 0.4),
+      0 0 80px rgba(74, 234, 188, 0.15),
+      inset 0 -2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .cta-btn-primary .arrow {
+    display: inline-block;
+    transition: transform 0.3s;
+  }
+
+  .cta-btn-primary:hover .arrow {
+    transform: translateX(5px);
+  }
+
+  /* Outline button */
+  .cta-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: transparent;
+    color: #e8eaf0;
+    font-family: "Outfit", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-btn-outline::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(74, 234, 188, 0.1),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .cta-btn-outline:hover::before {
+    opacity: 1;
+  }
+
+  .cta-btn-outline:hover {
+    border-color: rgba(74, 234, 188, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 24px rgba(74, 234, 188, 0.1);
+  }
+
+  @media (max-width: 900px) {
+    .cta-section {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
   }
 
   @media (max-width: 600px) {
-    .cta-actions {
+    .cta-buttons {
       flex-direction: column;
       align-items: center;
     }
   }
 </style>
+
+<script>
+  // Mouse glow follow for outline button
+  document.querySelectorAll<HTMLElement>('.cta-btn-outline').forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const me = e as MouseEvent;
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mouse-x', ((me.clientX - r.left) / r.width * 100) + '%');
+      el.style.setProperty('--mouse-y', ((me.clientY - r.top) / r.height * 100) + '%');
+    });
+  });
+</script>
