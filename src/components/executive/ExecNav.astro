@@ -1,0 +1,125 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
+<div class="exec-progress-bar" id="execProgressBar"></div>
+
+<nav class="exec-nav-dots">
+  <div class="exec-nav-dot active" data-s="exec-hero"><span class="tip">The Briefing</span></div>
+  <div class="exec-nav-dot" data-s="exec-reality"><span class="tip">The Reality</span></div>
+  <div class="exec-nav-dot" data-s="exec-contrast"><span class="tip">Old vs. New</span></div>
+  <div class="exec-nav-dot" data-s="exec-agents"><span class="tip">Your AI Workforce</span></div>
+  <div class="exec-nav-dot" data-s="exec-scoreboard"><span class="tip">The Numbers</span></div>
+  <div class="exec-nav-dot" data-s="exec-platform"><span class="tip">The Platform</span></div>
+  <div class="exec-nav-dot" data-s="exec-dashboard"><span class="tip">The Dashboard</span></div>
+  <div class="exec-nav-dot" data-s="exec-cta"><span class="tip">Next Steps</span></div>
+</nav>
+
+<style>
+  .exec-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+    z-index: 200;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 12px rgba(240,180,41,0.4);
+  }
+
+  .exec-nav-dots {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .exec-nav-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.25);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  .exec-nav-dot:hover,
+  .exec-nav-dot.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 14px rgba(240,180,41,0.5);
+    transform: scale(1.3);
+  }
+
+  .exec-nav-dot .tip {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--navy-light);
+    color: var(--white);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .exec-nav-dot:hover .tip {
+    opacity: 1;
+  }
+
+  @media (max-width: 900px) {
+    .exec-nav-dots {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', function() {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const bar = document.getElementById('execProgressBar');
+    if (bar) bar.style.width = ((window.scrollY / h) * 100) + '%';
+  });
+
+  // Nav dots
+  const sectionIds = [
+    'exec-hero', 'exec-reality', 'exec-contrast', 'exec-agents',
+    'exec-scoreboard', 'exec-platform', 'exec-dashboard', 'exec-cta'
+  ];
+  const navDots = document.querySelectorAll('.exec-nav-dot');
+
+  navDots.forEach(function(d) {
+    d.addEventListener('click', function() {
+      const target = document.getElementById(d.getAttribute('data-s') || '');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const sectionObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        navDots.forEach(function(d) { d.classList.remove('active'); });
+        const match = document.querySelector('[data-s="' + e.target.id + '"]');
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25 });
+
+  sectionIds.forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) sectionObserver.observe(el);
+  });
+</script>

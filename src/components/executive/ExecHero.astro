@@ -1,0 +1,164 @@
+---
+---
+
+<section class="exec-section exec-hero" id="exec-hero">
+  <div class="hero-bg">
+    <img src="/branding-identity/backgrounds/hero-background.png" alt="" class="hero-bg-img" />
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-logo">
+      <img src="/branding-identity/patientOS.png" alt="Machina" class="hero-logo-img" />
+    </div>
+    <div class="hero-badge">Executive Briefing</div>
+    <h1>What if half your <em>operational workforce</em> never clocked in, never burned out, and never <span class="teal">dropped a patient?</span></h1>
+    <p class="hero-sub">Machina deploys an agentic AI workforce alongside your human team. The result: your people operate at maximum efficiency, patients stop falling through cracks, and your overhead stays as small as possible.</p>
+  </div>
+</section>
+
+<style>
+  .exec-hero {
+    text-align: center;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 22, 40, 0.65);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 120px 40px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-logo {
+    margin-bottom: 28px;
+    animation: execFadeUp 0.8s ease 0.1s both;
+  }
+
+  .hero-logo-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(240,180,41,0.08);
+    border: 1px solid rgba(240,180,41,0.2);
+    border-radius: 100px;
+    padding: 8px 22px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 44px;
+    animation: execFadeUp 0.8s ease 0.2s both;
+  }
+
+  .exec-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5.8vw, 5rem);
+    line-height: 1.08;
+    color: var(--white);
+    max-width: 940px;
+    margin: 0 auto 32px;
+    animation: execFadeUp 0.8s ease 0.4s both;
+  }
+
+  .exec-hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .exec-hero h1 .teal {
+    color: var(--teal);
+  }
+
+  .hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--gray-300);
+    max-width: 660px;
+    margin: 0 auto 52px;
+    line-height: 1.7;
+    font-weight: 300;
+    animation: execFadeUp 0.8s ease 0.6s both;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--gray-500);
+    flex-wrap: wrap;
+    animation: execFadeUp 0.8s ease 0.8s both;
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: execFadeUp 0.8s ease 1s both;
+  }
+
+  .scroll-cue span {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gray-500);
+  }
+
+  .scroll-arrow {
+    width: 18px;
+    height: 18px;
+    border-right: 1.5px solid var(--gray-500);
+    border-bottom: 1.5px solid var(--gray-500);
+    transform: rotate(45deg);
+    animation: execBounce 2s infinite;
+  }
+
+  @media (max-width: 600px) {
+    .hero-content {
+      padding: 40px 20px;
+    }
+
+    .exec-hero h1 {
+      font-size: 2rem;
+    }
+  }
+</style>

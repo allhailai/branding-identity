@@ -1,0 +1,198 @@
+---
+
+---
+
+<section
+  class="exec-section exec-section-auto exec-contrast"
+  id="exec-contrast"
+>
+  <div class="exec-inner">
+    <div class="exec-label">The Shift</div>
+    <div class="exec-big">
+      Every MCO in America runs the same playbook. <span class="hl-coral"
+        >Hire more people</span
+      > to handle more patients. Here is what that actually looks like.
+    </div>
+
+    <div class="contrast-grid">
+      <div class="contrast-col contrast-old exec-reveal">
+        <div class="contrast-title">How Your MCO Operates Today</div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#10005;</span>
+          <span
+            >Staff manually routes every patient call, SMS, and follow-up.
+            Missed touchpoints bleed revenue.</span
+          >
+        </div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#10005;</span>
+          <span
+            >Coordinators cherry-pick tasks from unmanaged queues. Priority work
+            sits while easy tasks get done first.</span
+          >
+        </div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#10005;</span>
+          <span
+            >Patient profiles go stale between visits. Care gaps surface as
+            compliance findings, not as proactive flags.</span
+          >
+        </div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#10005;</span>
+          <span
+            >Coding happens after the fact. Revenue recovery is reactive. Your
+            CFO finds out about undercoding in the quarterly audit.</span
+          >
+        </div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#10005;</span>
+          <span
+            >Scaling means hiring. Every 500 new patients requires 3–5 new
+            coordinators, plus training, plus management overhead.</span
+          >
+        </div>
+      </div>
+
+      <div class="contrast-divider">&rarr;</div>
+
+      <div class="contrast-col contrast-new exec-reveal">
+        <div class="contrast-title">How It Operates on Machina</div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#9889;</span>
+          <span
+            >AI agents handle routing, follow-up, and escalation across SMS,
+            phone, and video. Humans handle judgment calls.</span
+          >
+        </div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#9889;</span>
+          <span
+            >Intelligent queues auto-prioritize. Agents complete routine tasks
+            autonomously. Your team focuses on what requires a human.</span
+          >
+        </div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#9889;</span>
+          <span
+            >Agentic patient profiles self-update from every interaction.
+            Anomalies and care gaps are flagged automatically.</span
+          >
+        </div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#9889;</span>
+          <span
+            >ACD module codes encounters in real time. Revenue capture is a
+            default state, not a recovery project.</span
+          >
+        </div>
+        <div class="contrast-item">
+          <span class="contrast-icon">&#9889;</span>
+          <span
+            >Scaling means configuring, not hiring. Your AI workforce absorbs
+            volume. Headcount stays flat. Margins expand.</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .exec-contrast {
+    background: var(--navy);
+    flex-direction: column;
+    padding: 120px 40px;
+  }
+
+  .contrast-grid {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    gap: 0;
+    margin-top: 20px;
+    align-items: stretch;
+  }
+
+  .contrast-col {
+    padding: 40px 36px;
+    border-radius: 20px;
+  }
+
+  .contrast-old {
+    background: linear-gradient(
+      145deg,
+      rgba(255, 107, 107, 0.04),
+      rgba(255, 107, 107, 0.01)
+    );
+    border: 1px solid rgba(255, 107, 107, 0.12);
+  }
+
+  .contrast-new {
+    background: linear-gradient(
+      145deg,
+      rgba(240, 180, 41, 0.06),
+      rgba(240, 180, 41, 0.01)
+    );
+    border: 1px solid rgba(240, 180, 41, 0.18);
+  }
+
+  .contrast-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: var(--gray-500);
+  }
+
+  .contrast-title {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    margin-bottom: 24px;
+  }
+
+  .contrast-old .contrast-title {
+    color: var(--coral);
+  }
+
+  .contrast-new .contrast-title {
+    color: var(--gold);
+  }
+
+  .contrast-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .contrast-old .contrast-item {
+    color: var(--gray-300);
+  }
+
+  .contrast-new .contrast-item {
+    color: var(--gray-100);
+  }
+
+  .contrast-icon {
+    flex-shrink: 0;
+    font-size: 1rem;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .contrast-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contrast-divider {
+      transform: rotate(90deg);
+      padding: 10px 0;
+    }
+
+    .exec-contrast {
+      padding: 80px 24px;
+    }
+  }
+</style>

@@ -12,9 +12,20 @@
         And when you're done, you'll have built exactly what already exists —
         except your competitors will have spent those 18 months seeing patients.
       </p>
+      <div class="escape-hatch-proof">
+        <div class="proof-stat">
+          <span class="proof-stat-value">$3B+</span>
+          <span class="proof-stat-label">in healthcare platform exits</span>
+        </div>
+        <div class="proof-stat-divider"></div>
+        <div class="proof-stat">
+          <span class="proof-stat-value">Decades</span>
+          <span class="proof-stat-label">of healthcare startup experience</span>
+        </div>
+      </div>
       <p class="escape-hatch-kicker">
-        The companies that chose to build it themselves are the ones getting
-        lapped right now. The ones that didn't are already live.
+        We've already learned what works — and what doesn't. Don't waste years
+        learning lessons we already have solutions for.
       </p>
       <a href="#cta" class="btn-primary">See how fast you could launch</a>
     </div>
@@ -46,7 +57,7 @@
       </div>
       <div class="vs-divider">or</div>
       <div class="vs-column vs-patientos">
-        <div class="vs-header">PatientOS</div>
+        <div class="vs-header">Machina</div>
         <ul class="vs-list">
           <li>
             <span class="vs-icon vs-icon-good">✓</span>
@@ -119,6 +130,46 @@
     line-height: 1.7;
     font-weight: 300;
     margin-bottom: 1.2rem;
+  }
+
+  .escape-hatch-proof {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    background: rgba(62, 232, 181, 0.05);
+    border: 1px solid rgba(62, 232, 181, 0.12);
+    border-radius: 10px;
+  }
+
+  .proof-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .proof-stat-value {
+    font-family: "DM Serif Display", serif;
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .proof-stat-label {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .proof-stat-divider {
+    width: 1px;
+    height: 2rem;
+    background: rgba(62, 232, 181, 0.15);
+    flex-shrink: 0;
   }
 
   .escape-hatch-kicker {

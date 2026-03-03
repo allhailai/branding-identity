@@ -1,0 +1,296 @@
+---
+---
+
+<section class="exec-section exec-section-auto exec-dashboard" id="exec-dashboard">
+  <div class="exec-inner">
+    <div class="exec-label">What Leadership Actually Sees</div>
+    <div class="exec-big">Your Monday morning does not start with a spreadsheet anymore. It starts with <em class="hl-gold">this.</em></div>
+
+    <div class="dashboard-mockup exec-reveal">
+      <div class="dash-bar">
+        <div class="dash-bar-left">
+          <div class="dash-logo">
+            <img src="/branding-identity/patientOS.png" alt="Machina" class="dash-logo-img" />
+          </div>
+          <span class="dash-bar-title">Machina</span>
+          <span class="dash-bar-subtitle">Executive View</span>
+        </div>
+        <div class="dash-tabs">
+          <span class="active">Overview</span>
+          <span>Agent Activity</span>
+          <span>Finance</span>
+          <span>Compliance</span>
+        </div>
+      </div>
+
+      <div class="dash-body">
+        <div class="dash-kpis">
+          <div class="dash-kpi">
+            <div class="dash-kpi-label">Active Patients</div>
+            <div class="dash-kpi-val gold">2,847</div>
+            <div class="dash-kpi-delta">&#8593; 12% vs last quarter</div>
+          </div>
+          <div class="dash-kpi">
+            <div class="dash-kpi-label">Agent Task Rate</div>
+            <div class="dash-kpi-val green">89%</div>
+            <div class="dash-kpi-delta">&#8593; 23% since deployment</div>
+          </div>
+          <div class="dash-kpi">
+            <div class="dash-kpi-label">Time-to-Intake</div>
+            <div class="dash-kpi-val teal">1.2d</div>
+            <div class="dash-kpi-delta">&#8595; 75% from baseline</div>
+          </div>
+          <div class="dash-kpi">
+            <div class="dash-kpi-label">Patient Drop-off</div>
+            <div class="dash-kpi-val coral">3.1%</div>
+            <div class="dash-kpi-delta">&#8595; from 18% baseline</div>
+          </div>
+        </div>
+
+        <div class="agent-feed">
+          <div class="agent-feed-title">
+            <div class="pulse"></div>
+            Agent Workforce Activity — Live
+          </div>
+
+          <div class="feed-item">
+            <div class="feed-time">2:34p</div>
+            <div class="feed-agent">COMMS</div>
+            <div class="feed-text">Completed follow-up call to <strong>patient #4821</strong>. Appointment confirmed for March 7. No escalation needed.</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-time">2:31p</div>
+            <div class="feed-agent">QUEUE</div>
+            <div class="feed-text">Cleared <strong>12 intake verifications</strong> from priority queue. 2 escalated to human review (missing documentation).</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-time">2:28p</div>
+            <div class="feed-agent">PROFILE</div>
+            <div class="feed-text">Flagged <strong>care gap</strong> for patient #3295: overdue HbA1c screening. Auto-routed to care coordinator queue.</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-time">2:22p</div>
+            <div class="feed-agent">ACD</div>
+            <div class="feed-text">Corrected coding on <strong>8 encounters</strong> from this morning. Estimated revenue recovery: <strong>$2,340</strong>.</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-time">2:15p</div>
+            <div class="feed-agent">QUEUE</div>
+            <div class="feed-text">Autonomously completed <strong>authorization follow-ups</strong> for 23 patients. All confirmed. Zero escalations.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .exec-dashboard {
+    background: linear-gradient(180deg, var(--navy-mid), var(--navy));
+    flex-direction: column;
+    padding: 120px 40px;
+  }
+
+  .dashboard-mockup {
+    max-width: 1020px;
+    margin: 48px auto 0;
+    width: 100%;
+    background: var(--navy-mid);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.06);
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+
+  .dash-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: rgba(0,0,0,0.25);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .dash-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dash-logo {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dash-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .dash-bar-title {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .dash-bar-subtitle {
+    color: var(--gray-500);
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  .dash-tabs {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+
+  .dash-tabs .active {
+    color: var(--gold);
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 2px;
+  }
+
+  .dash-body {
+    padding: 24px;
+  }
+
+  .dash-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .dash-kpi {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 18px;
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .dash-kpi-label {
+    font-size: 10px;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+
+  .dash-kpi-val {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  .dash-kpi-val.gold { color: var(--gold); }
+  .dash-kpi-val.green { color: var(--green); }
+  .dash-kpi-val.teal { color: var(--teal); }
+  .dash-kpi-val.coral { color: var(--coral); }
+
+  .dash-kpi-delta {
+    font-size: 11px;
+    color: var(--green);
+    margin-top: 4px;
+  }
+
+  /* Agent Activity Feed */
+  .agent-feed {
+    background: rgba(240,180,41,0.02);
+    border: 1px solid rgba(240,180,41,0.1);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .agent-feed-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .agent-feed-title .pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: execPulse 2s infinite;
+  }
+
+  .feed-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-size: 0.85rem;
+  }
+
+  .feed-item:last-child {
+    border-bottom: none;
+  }
+
+  .feed-time {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--gray-500);
+    flex-shrink: 0;
+    width: 55px;
+  }
+
+  .feed-agent {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    background: rgba(240,180,41,0.1);
+    color: var(--gold);
+  }
+
+  .feed-text {
+    color: var(--gray-300);
+  }
+
+  .feed-text strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    .dash-kpis {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dash-tabs {
+      display: none;
+    }
+
+    .exec-dashboard {
+      padding: 80px 24px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .dash-kpis {
+      grid-template-columns: 1fr;
+    }
+
+    .feed-item {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+  }
+</style>

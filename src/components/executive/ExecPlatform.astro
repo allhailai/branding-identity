@@ -1,0 +1,138 @@
+---
+---
+
+<section class="exec-section exec-section-auto exec-platform" id="exec-platform">
+  <div class="exec-inner">
+    <div class="exec-label teal">The Foundation</div>
+    <div class="exec-big">Your agents are only as good as the platform they run on. Machina is the <em class="hl-teal">operational backbone</em> underneath.</div>
+
+    <div class="platform-grid">
+      <div class="plat-card exec-reveal">
+        <div class="plat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="plat-name">Workflows &amp; Queues</div>
+        <div class="plat-desc">Configurable workflows trigger tasks. Tasks populate priority queues. Both humans and agents pull from the same queue with the same rules.</div>
+        <div class="plat-value">Ensures maximum throughput and zero cherry-picking</div>
+      </div>
+
+      <div class="plat-card exec-reveal">
+        <div class="plat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="plat-name">CRM &amp; Scheduling</div>
+        <div class="plat-desc">Built-in CRM tracks every patient and payer relationship. Scheduling with maps, intelligent routing, and appointment management.</div>
+        <div class="plat-value">One system of record eliminates tool sprawl</div>
+      </div>
+
+      <div class="plat-card exec-reveal">
+        <div class="plat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="plat-name">Daily Workspace</div>
+        <div class="plat-desc">Every team member sees their tasks, patients, and priorities in a single view. Your ops director sees the whole org. Same platform, same truth.</div>
+        <div class="plat-value">People operate at peak efficiency from minute one</div>
+      </div>
+
+      <div class="plat-card exec-reveal">
+        <div class="plat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+        </div>
+        <div class="plat-name">Compliance Infrastructure</div>
+        <div class="plat-desc">HIPAA and SOC 2 compliant from day one. Encryption, audit trails, access controls, and BAAs are configured, not built.</div>
+        <div class="plat-value">$0 spent building what already exists</div>
+      </div>
+
+      <div class="plat-card exec-reveal">
+        <div class="plat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="plat-name">Clinical Modules</div>
+        <div class="plat-desc">ACD module for appropriate coding. Extensible architecture for new clinical capabilities as your care model evolves.</div>
+        <div class="plat-value">Revenue protection and clinical accuracy by default</div>
+      </div>
+
+      <div class="plat-card exec-reveal">
+        <div class="plat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div class="plat-name">Analytics Layer</div>
+        <div class="plat-desc">Everything that happens on the platform generates data. Dashboards surface the metrics that matter to each role, from ops director to board member.</div>
+        <div class="plat-value">Continual improvement as a byproduct, not a project</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .exec-platform {
+    background: var(--navy);
+    flex-direction: column;
+    padding: 120px 40px;
+  }
+
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .plat-card {
+    background: linear-gradient(155deg, var(--navy-mid), var(--navy-light));
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 32px 26px;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .plat-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0,194,209,0.15);
+  }
+
+  .plat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(0,194,209,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal);
+    margin-bottom: 14px;
+  }
+
+  .plat-name {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .plat-desc {
+    font-size: 0.95rem;
+    color: var(--gray-300);
+    line-height: 1.65;
+  }
+
+  .plat-value {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.88rem;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .platform-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .exec-platform {
+      padding: 80px 24px;
+    }
+  }
+</style>

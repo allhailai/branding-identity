@@ -1,0 +1,196 @@
+---
+---
+
+<section class="exec-section exec-section-auto exec-type-journey-section">
+  <div class="exec-inner">
+    <div class="type-journey">
+      <div class="type-journey-title">The Transformation: Type 1 to Type 3 Organization</div>
+      <div class="type-journey-sub">Machina does not just give you software. It moves your entire organization up the operational maturity curve — and that is what makes you defensible.</div>
+
+      <div class="type-stages">
+        <div class="type-stage exec-reveal">
+          <div class="type-badge">1</div>
+          <div class="type-name">Fully Manual</div>
+          <div class="type-desc">Every task requires a human. Scaling means hiring. Margins compress as you grow. This is where most MCOs are today.</div>
+          <div class="type-metrics">
+            <div class="type-metric">High headcount per patient</div>
+            <div class="type-metric">Low margins at scale</div>
+            <div class="type-metric">Fragile operations</div>
+          </div>
+        </div>
+
+        <div class="type-stage exec-reveal">
+          <div class="type-badge">2</div>
+          <div class="type-name">AI-Assisted</div>
+          <div class="type-desc">AI supports your team with suggestions, reminders, and partial automation. Humans still drive everything. Efficiency improves, but the cost curve does not change.</div>
+          <div class="type-metrics">
+            <div class="type-metric">Moderate efficiency gains</div>
+            <div class="type-metric">Same staffing model</div>
+            <div class="type-metric">Incremental improvement</div>
+          </div>
+        </div>
+
+        <div class="type-stage exec-reveal">
+          <div class="type-badge">3</div>
+          <div class="type-name">AI-Native</div>
+          <div class="type-desc">AI agents are first-class members of the workforce. They own tasks, manage queues, maintain records, and handle communications. Humans focus on care and judgment. This is where Machina takes you.</div>
+          <div class="type-metrics">
+            <div class="type-metric">Flat headcount at scale</div>
+            <div class="type-metric">Expanding margins</div>
+            <div class="type-metric">Defensible moat</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .exec-type-journey-section {
+    background: var(--navy);
+    padding: 40px 40px 120px;
+    flex-direction: column;
+  }
+
+  .type-journey {
+    background: linear-gradient(135deg, var(--navy-mid), var(--navy));
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 24px;
+    padding: 52px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .type-journey::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--coral), var(--gold), var(--green));
+  }
+
+  .type-journey-title {
+    font-family: var(--font-display);
+    font-size: 1.85rem;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .type-journey-sub {
+    font-size: 1.05rem;
+    color: var(--gray-300);
+    margin-bottom: 40px;
+    max-width: 640px;
+    line-height: 1.65;
+  }
+
+  .type-stages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .type-stages::before {
+    content: '';
+    position: absolute;
+    top: 50px;
+    left: 16.5%;
+    right: 16.5%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--coral), var(--gold), var(--green));
+    opacity: 0.3;
+  }
+
+  .type-stage {
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .type-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    border: 2px solid;
+  }
+
+  .type-stage:nth-child(1) .type-badge {
+    background: rgba(255,107,107,0.08);
+    border-color: rgba(255,107,107,0.3);
+    color: var(--coral);
+  }
+
+  .type-stage:nth-child(2) .type-badge {
+    background: rgba(240,180,41,0.08);
+    border-color: rgba(240,180,41,0.3);
+    color: var(--gold);
+  }
+
+  .type-stage:nth-child(3) .type-badge {
+    background: rgba(6,214,160,0.08);
+    border-color: rgba(6,214,160,0.3);
+    color: var(--green);
+  }
+
+  .type-name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+  }
+
+  .type-stage:nth-child(1) .type-name { color: var(--coral); }
+  .type-stage:nth-child(2) .type-name { color: var(--gold); }
+  .type-stage:nth-child(3) .type-name { color: var(--green); }
+
+  .type-desc {
+    font-size: 0.95rem;
+    color: var(--gray-300);
+    line-height: 1.65;
+  }
+
+  .type-metrics {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .type-metric {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    padding: 4px 0;
+  }
+
+  .type-stage:nth-child(1) .type-metric { color: rgba(255,107,107,0.7); }
+  .type-stage:nth-child(2) .type-metric { color: rgba(240,180,41,0.7); }
+  .type-stage:nth-child(3) .type-metric { color: rgba(6,214,160,0.8); }
+
+  @media (max-width: 900px) {
+    .type-stages {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .type-stages::before {
+      display: none;
+    }
+
+    .type-journey {
+      padding: 36px 24px;
+    }
+
+    .exec-type-journey-section {
+      padding: 20px 24px 80px;
+    }
+  }
+</style>
