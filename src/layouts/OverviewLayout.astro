@@ -1,0 +1,337 @@
+---
+import OverviewNav from '../components/overview/OverviewNav.astro';
+
+interface Props {
+  title: string;
+  activeSlug?: string;
+}
+
+const { title, activeSlug } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="overview-shell">
+      <!-- Left sidebar nav -->
+      <aside class="overview-sidebar" id="overviewSidebar">
+        <OverviewNav activeSlug={activeSlug} />
+      </aside>
+
+      <!-- Mobile nav toggle -->
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+
+      <!-- Backdrop for mobile drawer -->
+      <div class="nav-backdrop" id="navBackdrop"></div>
+
+      <!-- Main content panel -->
+      <main class="overview-content">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
+
+<script>
+  var toggle = /** @type {HTMLElement|null} */ (document.getElementById('navToggle'));
+  var sidebar = /** @type {HTMLElement|null} */ (document.getElementById('overviewSidebar'));
+  var backdrop = /** @type {HTMLElement|null} */ (document.getElementById('navBackdrop'));
+
+  function openNav() {
+    if (sidebar) sidebar.classList.add('open');
+    if (backdrop) backdrop.classList.add('visible');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('visible');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      var isOpen = sidebar ? sidebar.classList.contains('open') : false;
+      if (isOpen) { closeNav(); } else { openNav(); }
+    });
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeNav);
+  }
+</script>
+
+<style is:global>
+  :root {
+    --navy: #0A1628;
+    --navy-mid: #121F36;
+    --navy-light: #1A2B47;
+    --teal: #00C2D1;
+    --teal-glow: #00E5F0;
+    --gold: #F0B429;
+    --gold-light: #FCEFC7;
+    --coral: #FF6B6B;
+    --green: #06D6A0;
+    --white: #F7F8FA;
+    --gray-100: #E8ECF1;
+    --gray-300: #A0AABA;
+    --gray-500: #6B7A8D;
+    --font-display: 'DM Serif Display', Georgia, serif;
+    --font-body: 'DM Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Overview shell */
+    --nav-width: 280px;
+    --nav-bg: var(--navy-mid);
+    --nav-border: rgba(255,255,255,0.06);
+    --nav-item-active-bg: rgba(240,180,41,0.08);
+    --nav-item-active-border: var(--gold);
+    --nav-item-hover-bg: rgba(255,255,255,0.04);
+    --content-bg: var(--navy);
+    --content-max-width: 860px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Shared exec utilities (used by exec-summary inside shell) ── */
+  .exec-section {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .exec-section-auto { min-height: auto; }
+
+  .exec-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .exec-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .exec-label::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .exec-label.teal { color: var(--teal); }
+  .exec-label.teal::before { background: var(--teal); }
+
+  .exec-big {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.2;
+    color: var(--white);
+    max-width: 820px;
+    margin-bottom: 48px;
+  }
+
+  .exec-big em { font-style: italic; }
+  .exec-big .hl-gold { color: var(--gold); }
+  .exec-big .hl-coral { color: var(--coral); }
+  .exec-big .hl-teal { color: var(--teal); }
+  .exec-big .hl-green { color: var(--green); }
+
+  @keyframes execFadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes execBounce {
+    0%, 20%, 50%, 80%, 100% { transform: rotate(45deg) translateY(0); }
+    40% { transform: rotate(45deg) translateY(-8px); }
+    60% { transform: rotate(45deg) translateY(-4px); }
+  }
+
+  @keyframes execPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(6,214,160,0.5); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(6,214,160,0); }
+  }
+
+  .exec-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .exec-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .exec-reveal { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 900px) {
+    .exec-inner { padding: 0 24px; }
+  }
+</style>
+
+<style>
+  /* ── Shell layout ── */
+  .overview-shell {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* ── Sidebar ── */
+  .overview-sidebar {
+    width: var(--nav-width);
+    min-width: var(--nav-width);
+    background: var(--nav-bg);
+    border-right: 1px solid var(--nav-border);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 0;
+    z-index: 50;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+
+  .overview-sidebar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .overview-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .overview-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+  }
+
+  /* ── Content panel ── */
+  .overview-content {
+    flex: 1;
+    min-width: 0;
+    background: var(--content-bg);
+    overflow-y: auto;
+  }
+
+  /* ── Mobile toggle button ── */
+  .nav-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 200;
+    background: var(--navy-mid);
+    border: 1px solid var(--nav-border);
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-toggle-bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 1px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  /* ── Backdrop ── */
+  .nav-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 40;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .nav-backdrop.visible {
+    opacity: 1;
+  }
+
+  /* ── Tablet: icon-only / collapsed ── */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .overview-sidebar {
+      width: 64px;
+      min-width: 64px;
+    }
+  }
+
+  /* ── Mobile: slide-in drawer ── */
+  @media (max-width: 768px) {
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-backdrop {
+      display: block;
+    }
+
+    .overview-sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
+    }
+
+    .overview-sidebar.open {
+      transform: translateX(0);
+    }
+  }
+</style>

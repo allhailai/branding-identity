@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL;
 ---
 
 <section class="exec-section exec-section-auto exec-platform" id="exec-platform">
@@ -7,32 +8,35 @@
     <div class="exec-big">Your agents are only as good as the platform they run on. Machina is the <em class="hl-teal">operational backbone</em> underneath.</div>
 
     <div class="platform-grid">
-      <div class="plat-card exec-reveal">
+      <a href={`${base}overview/features/workflows`} class="plat-card plat-card--link exec-reveal">
         <div class="plat-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         </div>
         <div class="plat-name">Workflows &amp; Queues</div>
         <div class="plat-desc">Configurable workflows trigger tasks. Tasks populate priority queues. Both humans and agents pull from the same queue with the same rules.</div>
         <div class="plat-value">Ensures maximum throughput and zero cherry-picking</div>
-      </div>
+        <div class="plat-cta">Explore feature →</div>
+      </a>
 
-      <div class="plat-card exec-reveal">
+      <a href={`${base}overview/features/crm`} class="plat-card plat-card--link exec-reveal">
         <div class="plat-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         </div>
         <div class="plat-name">CRM &amp; Scheduling</div>
         <div class="plat-desc">Built-in CRM tracks every patient and payer relationship. Scheduling with maps, intelligent routing, and appointment management.</div>
         <div class="plat-value">One system of record eliminates tool sprawl</div>
-      </div>
+        <div class="plat-cta">Explore feature →</div>
+      </a>
 
-      <div class="plat-card exec-reveal">
+      <a href={`${base}overview/features/workspace`} class="plat-card plat-card--link exec-reveal">
         <div class="plat-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
         </div>
         <div class="plat-name">Daily Workspace</div>
         <div class="plat-desc">Every team member sees their tasks, patients, and priorities in a single view. Your ops director sees the whole org. Same platform, same truth.</div>
         <div class="plat-value">People operate at peak efficiency from minute one</div>
-      </div>
+        <div class="plat-cta">Explore feature →</div>
+      </a>
 
       <div class="plat-card exec-reveal">
         <div class="plat-icon">
@@ -43,14 +47,15 @@
         <div class="plat-value">$0 spent building what already exists</div>
       </div>
 
-      <div class="plat-card exec-reveal">
+      <a href={`${base}overview/features/acd-module`} class="plat-card plat-card--link exec-reveal">
         <div class="plat-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
         </div>
         <div class="plat-name">Clinical Modules</div>
         <div class="plat-desc">ACD module for appropriate coding. Extensible architecture for new clinical capabilities as your care model evolves.</div>
         <div class="plat-value">Revenue protection and clinical accuracy by default</div>
-      </div>
+        <div class="plat-cta">Explore feature →</div>
+      </a>
 
       <div class="plat-card exec-reveal">
         <div class="plat-icon">
@@ -86,9 +91,28 @@
     transition: transform 0.3s, border-color 0.3s;
   }
 
+  .plat-card--link {
+    text-decoration: none;
+    cursor: pointer;
+    display: block;
+  }
+
   .plat-card:hover {
     transform: translateY(-3px);
     border-color: rgba(0,194,209,0.15);
+  }
+
+  .plat-cta {
+    margin-top: 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--teal);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .plat-card--link:hover .plat-cta {
+    opacity: 1;
   }
 
   .plat-icon {

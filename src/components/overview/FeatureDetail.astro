@@ -1,0 +1,270 @@
+---
+/**
+ * @typedef {Object} FeatureDetailProps
+ * @property {string} name
+ * @property {'ai-native'|'platform'} type
+ * @property {string|null} badge
+ * @property {string} description
+ * @property {string|null} screenshot
+ * @property {string|null} video
+ */
+
+interface Props {
+  name: string;
+  type: 'ai-native' | 'platform';
+  badge: string | null;
+  description: string;
+  screenshot: string | null;
+  video: string | null;
+}
+
+const { name, type, badge, description, screenshot, video } = Astro.props;
+const isAiNative = type === 'ai-native';
+---
+
+<article class="feature-detail">
+
+  <!-- ── ZONE 1: Feature Header ── -->
+  <header class="fd-header">
+    <div class="fd-badges">
+      {isAiNative && (
+        <span class="fd-badge fd-badge--ai">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+          AI-Native
+        </span>
+      )}
+      {badge === 'coming-soon' && (
+        <span class="fd-badge fd-badge--soon">Coming Soon</span>
+      )}
+    </div>
+
+    <h1 class="fd-title">{name}</h1>
+    <p class="fd-description">{description}</p>
+  </header>
+
+  <!-- ── ZONE 2: Screenshot ── -->
+  <section class="fd-zone fd-zone--screenshot">
+    {screenshot ? (
+      <figure class="fd-media-frame">
+        <img src={screenshot} alt={`Machina — ${name} interface`} class="fd-screenshot" loading="lazy" />
+        <figcaption class="fd-caption">Machina — {name} interface</figcaption>
+      </figure>
+    ) : (
+      <div class="fd-placeholder fd-placeholder--screenshot">
+        <div class="fd-placeholder-inner">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="fd-placeholder-icon">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span class="fd-placeholder-label">Screenshot coming soon</span>
+          <span class="fd-placeholder-sub">Machina — {name} interface</span>
+        </div>
+      </div>
+    )}
+  </section>
+
+  <!-- ── ZONE 3: Demo Video ── -->
+  <section class="fd-zone fd-zone--video">
+    {video ? (
+      <figure class="fd-media-frame">
+        <div class="fd-video-wrapper">
+          <iframe
+            src={video}
+            title={`${name} demo`}
+            frameborder="0"
+            allowfullscreen
+            loading="lazy"
+            class="fd-video-embed"
+          ></iframe>
+        </div>
+        <figcaption class="fd-caption">See {name} in action</figcaption>
+      </figure>
+    ) : (
+      <div class="fd-placeholder fd-placeholder--video">
+        <div class="fd-placeholder-inner">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="fd-placeholder-icon">
+            <polygon points="23 7 16 12 23 17 23 7"/>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+          <span class="fd-placeholder-label">Demo video coming soon</span>
+          <span class="fd-placeholder-sub">See {name} in action</span>
+        </div>
+      </div>
+    )}
+  </section>
+
+</article>
+
+<style>
+  .feature-detail {
+    max-width: var(--content-max-width, 860px);
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+  }
+
+  /* ── Zone 1: Header ── */
+  .fd-header {
+    margin-bottom: 48px;
+  }
+
+  .fd-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .fd-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+
+  .fd-badge--ai {
+    background: rgba(0,194,209,0.12);
+    color: var(--teal);
+    border: 1px solid rgba(0,194,209,0.3);
+  }
+
+  .fd-badge--soon {
+    background: rgba(240,180,41,0.1);
+    color: var(--gold);
+    border: 1px solid rgba(240,180,41,0.3);
+  }
+
+  .fd-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .fd-description {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--gray-300);
+    max-width: 680px;
+  }
+
+  /* ── Zones 2 & 3 ── */
+  .fd-zone {
+    margin-bottom: 48px;
+  }
+
+  .fd-zone--screenshot {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 40px;
+  }
+
+  .fd-zone--video {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 40px;
+  }
+
+  /* ── Media frame ── */
+  .fd-media-frame {
+    display: block;
+  }
+
+  .fd-screenshot {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: block;
+  }
+
+  .fd-video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .fd-video-embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+  }
+
+  .fd-caption {
+    margin-top: 12px;
+    font-size: 0.82rem;
+    color: var(--gray-500);
+    font-style: italic;
+  }
+
+  /* ── Placeholders ── */
+  .fd-placeholder {
+    border-radius: 12px;
+    border: 1px dashed rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fd-placeholder--screenshot {
+    min-height: 320px;
+  }
+
+  .fd-placeholder--video {
+    min-height: 280px;
+  }
+
+  .fd-placeholder-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .fd-placeholder-icon {
+    color: rgba(255,255,255,0.15);
+  }
+
+  .fd-placeholder-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .fd-placeholder-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.15);
+    font-style: italic;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .feature-detail {
+      padding: 32px 24px 60px;
+    }
+
+    .fd-placeholder--screenshot {
+      min-height: 200px;
+    }
+
+    .fd-placeholder--video {
+      min-height: 180px;
+    }
+  }
+</style>

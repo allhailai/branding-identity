@@ -1,0 +1,374 @@
+---
+import { aiNativeFeatures, platformFeatures } from './feature-data.js';
+
+interface Props {
+  activeSlug?: string;
+}
+
+const { activeSlug } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+// Determine if the "executive-summary" link is active
+const isExecActive = activeSlug === 'executive-summary';
+---
+
+<div class="onav">
+  <!-- Logo -->
+  <a href={`${base}`} class="onav-logo" aria-label="Machina home">
+    <img src={`${base}machina-light.png`} alt="Machina" class="onav-logo-img" />
+  </a>
+
+  <!-- Top-level: Executive Summary -->
+  <nav class="onav-links" aria-label="Overview navigation">
+    <a
+      href={`${base}overview/executive-summary`}
+      class={`onav-item onav-item--top ${isExecActive ? 'active' : ''}`}
+    >
+      <svg class="onav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+      <span class="onav-label">Executive Summary</span>
+    </a>
+
+    <!-- Features collapsible group -->
+    <div class="onav-group" id="featuresGroup">
+      <button class="onav-group-toggle" id="featuresToggle" aria-expanded="true" aria-controls="featuresMenu">
+        <svg class="onav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span class="onav-label">Features</span>
+        <svg class="onav-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+      <div class="onav-group-menu" id="featuresMenu">
+        <!-- AI-Native section -->
+        <div class="onav-divider">AI-Native Features</div>
+        {aiNativeFeatures.map(function(f) {
+          const isActive = activeSlug === f.slug;
+          return (
+            <a
+              href={`${base}overview/features/${f.slug}`}
+              class={`onav-item onav-item--feature ${isActive ? 'active' : ''}`}
+            >
+              <span class="onav-dot"></span>
+              <span class="onav-label">{f.name}</span>
+              <span class="onav-badges">
+                <span class="badge badge--ai">AI</span>
+                {f.badge === 'coming-soon' && (
+                  <span class="badge badge--soon">Soon</span>
+                )}
+              </span>
+            </a>
+          );
+        })}
+
+        <!-- Platform section -->
+        <div class="onav-divider">Platform Features</div>
+        {platformFeatures.map(function(f) {
+          const isActive = activeSlug === f.slug;
+          return (
+            <a
+              href={`${base}overview/features/${f.slug}`}
+              class={`onav-item onav-item--feature ${isActive ? 'active' : ''}`}
+            >
+              <span class="onav-dot"></span>
+              <span class="onav-label">{f.name}</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Footer link back to main site -->
+  <div class="onav-footer">
+    <a href={`${base}`} class="onav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back to site
+    </a>
+  </div>
+</div>
+
+<script>
+  var toggle = /** @type {HTMLButtonElement|null} */ (document.getElementById('featuresToggle'));
+  var menu = /** @type {HTMLElement|null} */ (document.getElementById('featuresMenu'));
+
+  if (toggle && menu) {
+    var t = toggle;
+    var m = menu;
+    t.addEventListener('click', function() {
+      var expanded = t.getAttribute('aria-expanded') === 'true';
+      t.setAttribute('aria-expanded', String(!expanded));
+      m.classList.toggle('collapsed', expanded);
+      t.classList.toggle('collapsed', expanded);
+    });
+  }
+</script>
+
+<style>
+  .onav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+  }
+
+  /* ── Logo ── */
+  .onav-logo {
+    display: flex;
+    align-items: center;
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid var(--nav-border);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .onav-logo-img {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* ── Nav links container ── */
+  .onav-links {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 0;
+    scrollbar-width: none;
+  }
+
+  .onav-links::-webkit-scrollbar { display: none; }
+
+  /* ── Nav items ── */
+  .onav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    text-decoration: none;
+    color: var(--gray-300);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.4;
+    transition: background 0.15s, color 0.15s;
+    position: relative;
+    border-left: 3px solid transparent;
+  }
+
+  .onav-item:hover {
+    background: var(--nav-item-hover-bg);
+    color: var(--white);
+  }
+
+  .onav-item.active {
+    background: var(--nav-item-active-bg);
+    border-left-color: var(--nav-item-active-border);
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .onav-item--top {
+    font-weight: 500;
+    color: rgba(247,248,250,0.85);
+    margin-bottom: 4px;
+  }
+
+  .onav-item--feature {
+    padding-left: 28px;
+    font-size: 0.84rem;
+  }
+
+  /* ── Icon ── */
+  .onav-icon {
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .onav-item.active .onav-icon,
+  .onav-item:hover .onav-icon {
+    opacity: 1;
+  }
+
+  /* ── Dot for feature items ── */
+  .onav-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+    margin-left: 2px;
+  }
+
+  .onav-item.active .onav-dot {
+    background: var(--gold);
+  }
+
+  /* ── Label ── */
+  .onav-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ── Badges ── */
+  .onav-badges {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    border-radius: 3px;
+    line-height: 1.4;
+  }
+
+  .badge--ai {
+    background: rgba(0,194,209,0.15);
+    color: var(--teal);
+    border: 1px solid rgba(0,194,209,0.25);
+  }
+
+  .badge--soon {
+    background: rgba(240,180,41,0.12);
+    color: var(--gold);
+    border: 1px solid rgba(240,180,41,0.25);
+  }
+
+  /* ── Collapsible group ── */
+  .onav-group {
+    margin-top: 4px;
+  }
+
+  .onav-group-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 20px;
+    background: none;
+    border: none;
+    border-left: 3px solid transparent;
+    color: rgba(247,248,250,0.85);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .onav-group-toggle:hover {
+    background: var(--nav-item-hover-bg);
+    color: var(--white);
+  }
+
+  .onav-chevron {
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: rotate(90deg);
+    opacity: 0.5;
+  }
+
+  .onav-group-toggle.collapsed .onav-chevron {
+    transform: rotate(0deg);
+  }
+
+  .onav-group-menu {
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 1000px;
+  }
+
+  .onav-group-menu.collapsed {
+    max-height: 0;
+  }
+
+  /* ── Section dividers ── */
+  .onav-divider {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    padding: 14px 20px 6px 28px;
+  }
+
+  /* ── Footer ── */
+  .onav-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--nav-border);
+    flex-shrink: 0;
+  }
+
+  .onav-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gray-500);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .onav-back:hover {
+    color: var(--gray-300);
+  }
+
+  /* ── Tablet: icon-only mode ── */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .onav-label,
+    .onav-badges,
+    .onav-chevron,
+    .onav-divider,
+    .onav-back span,
+    .onav-group-menu {
+      display: none;
+    }
+
+    .onav-logo {
+      justify-content: center;
+      padding: 20px 0;
+    }
+
+    .onav-logo-img {
+      height: 22px;
+    }
+
+    .onav-item,
+    .onav-group-toggle {
+      justify-content: center;
+      padding: 12px 0;
+    }
+
+    .onav-icon {
+      opacity: 0.7;
+    }
+
+    .onav-dot {
+      display: none;
+    }
+
+    .onav-footer {
+      display: flex;
+      justify-content: center;
+      padding: 16px 0;
+    }
+  }
+</style>
