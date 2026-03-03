@@ -6,7 +6,6 @@ interface Props {
 }
 
 const { activeSlug } = Astro.props;
-const base = import.meta.env.BASE_URL;
 
 // Determine if the "executive-summary" link is active
 const isExecActive = activeSlug === 'executive-summary';
@@ -14,14 +13,14 @@ const isExecActive = activeSlug === 'executive-summary';
 
 <div class="onav">
   <!-- Logo -->
-  <a href={`${base}`} class="onav-logo" aria-label="Machina home">
-    <img src={`${base}machina-light.png`} alt="Machina" class="onav-logo-img" />
+  <a href="/branding-identity/" class="onav-logo" aria-label="Machina home">
+    <img src="/branding-identity/machina-light.png" alt="Machina" class="onav-logo-img" />
   </a>
 
   <!-- Top-level: Executive Summary -->
   <nav class="onav-links" aria-label="Overview navigation">
     <a
-      href={`${base}overview/executive-summary`}
+      href="/branding-identity/overview/executive-summary"
       class={`onav-item onav-item--top ${isExecActive ? 'active' : ''}`}
     >
       <svg class="onav-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -54,7 +53,7 @@ const isExecActive = activeSlug === 'executive-summary';
           const isActive = activeSlug === f.slug;
           return (
             <a
-              href={`${base}overview/features/${f.slug}`}
+              href={`/branding-identity/overview/features/${f.slug}`}
               class={`onav-item onav-item--feature ${isActive ? 'active' : ''}`}
             >
               <span class="onav-dot"></span>
@@ -75,7 +74,7 @@ const isExecActive = activeSlug === 'executive-summary';
           const isActive = activeSlug === f.slug;
           return (
             <a
-              href={`${base}overview/features/${f.slug}`}
+              href={`/branding-identity/overview/features/${f.slug}`}
               class={`onav-item onav-item--feature ${isActive ? 'active' : ''}`}
             >
               <span class="onav-dot"></span>
@@ -89,7 +88,7 @@ const isExecActive = activeSlug === 'executive-summary';
 
   <!-- Footer link back to main site -->
   <div class="onav-footer">
-    <a href={`${base}`} class="onav-back">
+    <a href="/branding-identity/" class="onav-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"/>
       </svg>
