@@ -111,7 +111,12 @@ const { title, activeSlug } = Astro.props;
 
   body {
     font-family: var(--font-body);
-    background: var(--navy);
+    background-color: var(--navy);
+    background-image: url('/backgrounds/gradient-simple.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     color: var(--white);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -255,7 +260,7 @@ const { title, activeSlug } = Astro.props;
   .overview-content {
     flex: 1;
     min-width: 0;
-    background: var(--content-bg);
+    background: transparent;
     overflow-y: auto;
   }
 

@@ -199,6 +199,26 @@ const hasGif = !!video;
   /* ── Zone 1: Header ── */
   .fd-header {
     margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fd-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/logo-light-large.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: auto 140%;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .fd-header > * {
+    position: relative;
+    z-index: 1;
   }
 
   .fd-badges {
