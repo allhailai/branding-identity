@@ -7,6 +7,7 @@
  * @property {string} description
  * @property {string|null} screenshot
  * @property {string|null} video
+ * @property {{ slug: string; name: string }|null} nextFeature
  */
 
 interface Props {
@@ -16,14 +17,28 @@ interface Props {
   description: string;
   screenshot: string | null;
   video: string | null;
+  nextFeature: { slug: string; name: string } | null;
 }
 
-const { name, type, badge, description, screenshot, video } = Astro.props;
+const { name, type, badge, description, screenshot, video, nextFeature } = Astro.props;
 const isAiNative = type === 'ai-native';
 const hasGif = !!video;
 ---
 
 <article class="feature-detail">
+
+  <!-- ── Next Feature Link ── -->
+  {nextFeature && (
+    <div class="fd-next-wrap">
+      <a href={`/branding-identity/overview/features/${nextFeature.slug}`} class="fd-next-link">
+        <span>Next: {nextFeature.name}</span>
+        <svg class="fd-next-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+  )}
 
   <!-- ── ZONE 1: Feature Header ── -->
   <header class="fd-header">
@@ -193,7 +208,46 @@ const hasGif = !!video;
   .feature-detail {
     max-width: var(--content-max-width, 860px);
     margin: 0 auto;
-    padding: 56px 48px 80px;
+    padding: 1rem 2rem;
+  }
+
+  /* ── Next Feature Link ── */
+  .fd-next-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+  }
+
+  .fd-next-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 194, 209, 0.3);
+    background: rgba(0, 194, 209, 0.07);
+    color: var(--gold-light);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: background 0.18s ease, border-color 0.18s ease, gap 0.18s ease, color 0.18s ease;
+  }
+
+  .fd-next-link:hover {
+    background: rgba(0, 194, 209, 0.14);
+    border-color: rgba(0, 194, 209, 0.55);
+    color: var(--gold);
+    gap: 12px;
+  }
+
+  .fd-next-arrow {
+    flex-shrink: 0;
+    transition: transform 0.18s ease;
+  }
+
+  .fd-next-link:hover .fd-next-arrow {
+    transform: translateX(3px);
   }
 
   /* ── Zone 1: Header ── */
