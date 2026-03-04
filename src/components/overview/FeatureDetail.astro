@@ -1,0 +1,393 @@
+---
+/**
+ * @typedef {Object} FeatureDetailProps
+ * @property {string} name
+ * @property {'ai-native'|'platform'} type
+ * @property {string|null} badge
+ * @property {string} description
+ * @property {string|null} screenshot
+ * @property {string|null} video
+ */
+
+interface Props {
+  name: string;
+  type: 'ai-native' | 'platform';
+  badge: string | null;
+  description: string;
+  screenshot: string | null;
+  video: string | null;
+}
+
+const { name, type, badge, description, screenshot, video } = Astro.props;
+const isAiNative = type === 'ai-native';
+const hasGif = !!video;
+---
+
+<article class="feature-detail">
+
+  <!-- ── ZONE 1: Feature Header ── -->
+  <header class="fd-header">
+    <div class="fd-badges">
+      {isAiNative && (
+        <span class="fd-badge fd-badge--ai">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+          AI-Native
+        </span>
+      )}
+      {badge === 'coming-soon' && (
+        <span class="fd-badge fd-badge--soon">Coming Soon</span>
+      )}
+    </div>
+
+    <h1 class="fd-title">{name}</h1>
+    <p class="fd-description">{description}</p>
+  </header>
+
+  <!-- ── ZONE 2: Screenshot (with optional GIF play trigger) ── -->
+  <section class="fd-zone fd-zone--screenshot">
+    {screenshot ? (
+      <figure class="fd-media-frame">
+        <div class={`fd-screenshot-wrap${hasGif ? ' fd-screenshot-wrap--playable' : ''}`} data-gif={video ?? ''}>
+          <img src={screenshot} alt={`Machina — ${name} interface`} class="fd-screenshot" loading="lazy" />
+          {hasGif && (
+            <button class="fd-play-btn" aria-label={`Play ${name} demo`}>
+              <svg class="fd-play-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="40" cy="40" r="38" stroke="rgba(220,220,220,0.55)" stroke-width="2"/>
+                <polygon points="32,24 60,40 32,56" fill="rgba(220,220,220,0.75)"/>
+              </svg>
+            </button>
+          )}
+        </div>
+        <figcaption class="fd-caption">
+          Machina — {name} interface{hasGif ? ' · Click to see it in action' : ''}
+        </figcaption>
+      </figure>
+    ) : (
+      <div class="fd-placeholder fd-placeholder--screenshot">
+        <div class="fd-placeholder-inner">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="fd-placeholder-icon">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span class="fd-placeholder-label">Screenshot coming soon</span>
+          <span class="fd-placeholder-sub">Machina — {name} interface</span>
+        </div>
+      </div>
+    )}
+  </section>
+
+</article>
+
+<script is:inline>
+  (function () {
+    var wrap = document.querySelector('.fd-screenshot-wrap--playable');
+    if (!wrap) return;
+
+    var gifSrc = wrap.getAttribute('data-gif') || '';
+
+    // Build overlay HTML and append directly to <body> to escape
+    // any overflow:auto ancestor (like .overview-content) that would
+    // clip position:fixed children.
+    var overlay = document.createElement('div');
+    overlay.id = 'fd-gif-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Feature demo');
+    overlay.style.cssText = [
+      'position:fixed',
+      'inset:0',
+      'z-index:9000',
+      'background:rgba(5,10,22,0.92)',
+      'backdrop-filter:blur(6px)',
+      '-webkit-backdrop-filter:blur(6px)',
+      'display:flex',
+      'align-items:center',
+      'justify-content:center',
+      'opacity:0',
+      'pointer-events:none',
+      'transition:opacity 0.22s ease',
+    ].join(';');
+
+    var closeBtn = document.createElement('button');
+    closeBtn.setAttribute('aria-label', 'Close demo');
+    closeBtn.style.cssText = [
+      'position:fixed',
+      'top:20px',
+      'right:24px',
+      'background:rgba(255,255,255,0.08)',
+      'border:1px solid rgba(255,255,255,0.14)',
+      'border-radius:50%',
+      'width:44px',
+      'height:44px',
+      'display:flex',
+      'align-items:center',
+      'justify-content:center',
+      'cursor:pointer',
+      'color:rgba(255,255,255,0.7)',
+      'z-index:9001',
+      'transition:background 0.15s ease,color 0.15s ease',
+    ].join(';');
+    closeBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+    var inner = document.createElement('div');
+    inner.style.cssText = [
+      'position:relative',
+      'max-width:min(90vw,1100px)',
+      'max-height:88vh',
+      'display:flex',
+      'align-items:center',
+      'justify-content:center',
+    ].join(';');
+
+    var gifImg = document.createElement('img');
+    gifImg.id = 'fd-gif-img';
+    gifImg.alt = 'Feature demo animation';
+    gifImg.style.cssText = [
+      'display:block',
+      'max-width:100%',
+      'max-height:88vh',
+      'border-radius:12px',
+      'border:1px solid rgba(255,255,255,0.1)',
+      'box-shadow:0 32px 80px rgba(0,0,0,0.7)',
+    ].join(';');
+
+    inner.appendChild(gifImg);
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(inner);
+    document.body.appendChild(overlay);
+
+    function openOverlay() {
+      gifImg.src = gifSrc;
+      overlay.style.opacity = '1';
+      overlay.style.pointerEvents = 'all';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeOverlay() {
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+      document.body.style.overflow = '';
+      gifImg.src = '';
+    }
+
+    wrap.addEventListener('click', openOverlay);
+    closeBtn.addEventListener('click', closeOverlay);
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeOverlay();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.style.opacity === '1') {
+        closeOverlay();
+      }
+    });
+  })();
+</script>
+
+<style>
+  .feature-detail {
+    max-width: var(--content-max-width, 860px);
+    margin: 0 auto;
+    padding: 56px 48px 80px;
+  }
+
+  /* ── Zone 1: Header ── */
+  .fd-header {
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fd-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/logo-light-large.png');
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: auto 140%;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .fd-header > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .fd-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .fd-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+
+  .fd-badge--ai {
+    background: rgba(0,194,209,0.12);
+    color: var(--teal);
+    border: 1px solid rgba(0,194,209,0.3);
+  }
+
+  .fd-badge--soon {
+    background: rgba(240,180,41,0.1);
+    color: var(--gold);
+    border: 1px solid rgba(240,180,41,0.3);
+  }
+
+  .fd-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .fd-description {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--gray-300);
+    max-width: 680px;
+  }
+
+  /* ── Zone 2 ── */
+  .fd-zone {
+    margin-bottom: 48px;
+  }
+
+  .fd-zone--screenshot {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 40px;
+  }
+
+  /* ── Media frame ── */
+  .fd-media-frame {
+    display: block;
+  }
+
+  /* Screenshot wrapper — base */
+  .fd-screenshot-wrap {
+    position: relative;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .fd-screenshot {
+    width: 100%;
+    display: block;
+  }
+
+  /* Play button — only shown when wrapper has --playable modifier */
+  .fd-play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    /* subtle dark vignette so play icon reads on any screenshot */
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.04) 70%);
+    transition: background 0.2s ease;
+  }
+
+  .fd-play-btn:hover {
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.10) 70%);
+  }
+
+  .fd-play-icon {
+    width: 72px;
+    height: 72px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+    transition: transform 0.18s ease, filter 0.18s ease;
+  }
+
+  .fd-play-btn:hover .fd-play-icon {
+    transform: scale(1.08);
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.55));
+  }
+
+  .fd-caption {
+    margin-top: 12px;
+    font-size: 0.82rem;
+    color: var(--gray-500);
+    font-style: italic;
+  }
+
+  /* ── Placeholders ── */
+  .fd-placeholder {
+    border-radius: 12px;
+    border: 1px dashed rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fd-placeholder--screenshot {
+    min-height: 320px;
+  }
+
+  .fd-placeholder-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .fd-placeholder-icon {
+    color: rgba(255,255,255,0.15);
+  }
+
+  .fd-placeholder-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .fd-placeholder-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.15);
+    font-style: italic;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .feature-detail {
+      padding: 32px 24px 60px;
+    }
+
+    .fd-placeholder--screenshot {
+      min-height: 200px;
+    }
+
+    .fd-play-icon {
+      width: 52px;
+      height: 52px;
+    }
+  }
+</style>

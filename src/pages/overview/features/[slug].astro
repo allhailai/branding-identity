@@ -1,0 +1,27 @@
+---
+import OverviewLayout from "../../../layouts/OverviewLayout.astro";
+import FeatureDetail from "../../../components/overview/FeatureDetail.astro";
+import { features } from "../../../components/overview/feature-data.js";
+
+export function getStaticPaths() {
+  return features.map(function(feature) {
+    return {
+      params: { slug: feature.slug },
+      props: { feature },
+    };
+  });
+}
+
+const { feature } = Astro.props;
+---
+
+<OverviewLayout title={`Machina — ${feature.name}`} activeSlug={feature.slug}>
+  <FeatureDetail
+    name={feature.name}
+    type={feature.type}
+    badge={feature.badge}
+    description={feature.description}
+    screenshot={feature.screenshot}
+    video={feature.video}
+  />
+</OverviewLayout>
