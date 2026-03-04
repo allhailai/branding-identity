@@ -31,7 +31,7 @@ export const features = [
     badge: null,
     description:
       'A living, AI-maintained patient record that aggregates clinical history, communication preferences, care gaps, and risk signals in real time. Agents continuously update and act on the profile — no manual data entry required.',
-    screenshot: null,
+    screenshot: "/branding-identity/screenshots/agentic-patient-profile.png",
     video: null,
   },
   {
@@ -41,12 +41,12 @@ export const features = [
     badge: null,
     description:
       'The next evolution of the Tasks module — AI agents that don\'t just surface tasks but complete them end-to-end. From outreach to documentation to follow-up, agents close the loop without human handoff.',
-    screenshot: null,
-    video: null,
+    screenshot: "/branding-identity/screenshots/agentic-tasks.png",
+    video: "/branding-identity/animations/agentic-tasks-summary.gif",
   },
   {
     slug: 'agentic-queues',
-    name: 'Agentic Queue Management & Task Completion',
+    name: 'Agentic Queue Management',
     type: 'ai-native',
     badge: null,
     description:
