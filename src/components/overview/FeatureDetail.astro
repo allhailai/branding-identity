@@ -72,14 +72,7 @@ const isAiNative = type === 'ai-native';
     {video ? (
       <figure class="fd-media-frame">
         <div class="fd-video-wrapper">
-          <iframe
-            src={video}
-            title={`${name} demo`}
-            frameborder="0"
-            allowfullscreen
-            loading="lazy"
-            class="fd-video-embed"
-          ></iframe>
+          <img src={video} />
         </div>
         <figcaption class="fd-caption">See {name} in action</figcaption>
       </figure>

@@ -38,7 +38,7 @@ export const features = [
     slug: 'agentic-tasks',
     name: 'Agentic Task Completion',
     type: 'ai-native',
-    badge: 'coming-soon',
+    badge: null,
     description:
       'The next evolution of the Tasks module — AI agents that don\'t just surface tasks but complete them end-to-end. From outreach to documentation to follow-up, agents close the loop without human handoff.',
     screenshot: null,
@@ -63,7 +63,7 @@ export const features = [
     badge: null,
     description:
       'Visual, configurable care workflows that orchestrate multi-step patient journeys across teams, channels, and time. Machina executes workflow steps autonomously, escalating to humans only when judgment is required.',
-    screenshot: null,
+    screenshot: "/branding-identity/screenshots/workflows.png",
     video: null,
   },
   {
@@ -83,8 +83,8 @@ export const features = [
     badge: null,
     description:
       'Intelligent work queues that organize patient interactions, care gaps, and staff assignments by priority, acuity, and capacity. Machina ensures the right work reaches the right person at the right time.',
-    screenshot: null,
-    video: null,
+    screenshot: "/branding-identity/screenshots/queues.png",
+    video: "/branding-identity/animations/queues.gif",
   },
   {
     slug: 'workspace',
@@ -108,7 +108,7 @@ export const features = [
   },
   {
     slug: 'scheduling',
-    name: 'Scheduling — Maps & Appointments',
+    name: 'Scheduling',
     type: 'platform',
     badge: null,
     description:
@@ -118,7 +118,7 @@ export const features = [
   },
   {
     slug: 'acd-module',
-    name: 'ACD Module (Appropriate Coding)',
+    name: 'Appropriate Coding',
     type: 'platform',
     badge: null,
     description:
