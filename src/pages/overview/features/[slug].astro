@@ -5,15 +5,16 @@ import { features } from "../../../components/overview/feature-data.js";
 
 export function getStaticPaths() {
   return features.map(function(feature, index) {
+    const prevFeature = features[index - 1] ?? null;
     const nextFeature = features[index + 1] ?? null;
     return {
       params: { slug: feature.slug },
-      props: { feature, nextFeature },
+      props: { feature, prevFeature, nextFeature },
     };
   });
 }
 
-const { feature, nextFeature } = Astro.props;
+const { feature, prevFeature, nextFeature } = Astro.props;
 ---
 
 <OverviewLayout title={`Machina — ${feature.name}`} activeSlug={feature.slug}>
@@ -24,6 +25,7 @@ const { feature, nextFeature } = Astro.props;
     description={feature.description}
     screenshot={feature.screenshot}
     video={feature.video}
+    prevFeature={prevFeature}
     nextFeature={nextFeature}
   />
 </OverviewLayout>

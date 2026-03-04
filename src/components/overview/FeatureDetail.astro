@@ -7,6 +7,7 @@
  * @property {string} description
  * @property {string|null} screenshot
  * @property {string|null} video
+ * @property {{ slug: string; name: string }|null} prevFeature
  * @property {{ slug: string; name: string }|null} nextFeature
  */
 
@@ -17,26 +18,42 @@ interface Props {
   description: string;
   screenshot: string | null;
   video: string | null;
+  prevFeature: { slug: string; name: string } | null;
   nextFeature: { slug: string; name: string } | null;
 }
 
-const { name, type, badge, description, screenshot, video, nextFeature } = Astro.props;
+const { name, type, badge, description, screenshot, video, prevFeature, nextFeature } = Astro.props;
 const isAiNative = type === 'ai-native';
 const hasGif = !!video;
 ---
 
 <article class="feature-detail">
 
-  <!-- ── Next Feature Link ── -->
-  {nextFeature && (
-    <div class="fd-next-wrap">
-      <a href={`/branding-identity/overview/features/${nextFeature.slug}`} class="fd-next-link">
-        <span>Next: {nextFeature.name}</span>
-        <svg class="fd-next-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="5" y1="12" x2="19" y2="12"/>
-          <polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </a>
+  <!-- ── Feature Navigation ── -->
+  {(prevFeature || nextFeature) && (
+    <div class="fd-nav-wrap">
+      <div class="fd-nav-prev">
+        {prevFeature && (
+          <a href={`/branding-identity/overview/features/${prevFeature.slug}`} class="fd-nav-link fd-nav-link--prev">
+            <svg class="fd-nav-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="19" y1="12" x2="5" y2="12"/>
+              <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            <span>{prevFeature.name}</span>
+          </a>
+        )}
+      </div>
+      <div class="fd-nav-next">
+        {nextFeature && (
+          <a href={`/branding-identity/overview/features/${nextFeature.slug}`} class="fd-nav-link fd-nav-link--next">
+            <span>{nextFeature.name}</span>
+            <svg class="fd-nav-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        )}
+      </div>
     </div>
   )}
 
@@ -211,14 +228,28 @@ const hasGif = !!video;
     padding: 1rem 2rem;
   }
 
-  /* ── Next Feature Link ── */
-  .fd-next-wrap {
+  /* ── Feature Navigation (prev / next) ── */
+  .fd-nav-wrap {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3.5rem;
+    gap: 8px;
   }
 
-  .fd-next-link {
+  .fd-nav-prev {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .fd-nav-next {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .fd-nav-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -231,22 +262,25 @@ const hasGif = !!video;
     font-weight: 600;
     text-decoration: none;
     letter-spacing: 0.01em;
-    transition: background 0.18s ease, border-color 0.18s ease, gap 0.18s ease, color 0.18s ease;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
   }
 
-  .fd-next-link:hover {
+  .fd-nav-link:hover {
     background: rgba(0, 194, 209, 0.14);
     border-color: rgba(0, 194, 209, 0.55);
     color: var(--gold);
-    gap: 12px;
   }
 
-  .fd-next-arrow {
+  .fd-nav-arrow {
     flex-shrink: 0;
     transition: transform 0.18s ease;
   }
 
-  .fd-next-link:hover .fd-next-arrow {
+  .fd-nav-link--prev:hover .fd-nav-arrow {
+    transform: translateX(-3px);
+  }
+
+  .fd-nav-link--next:hover .fd-nav-arrow {
     transform: translateX(3px);
   }
 
