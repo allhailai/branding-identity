@@ -1,0 +1,324 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<style>
+  .fd-cards-container {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+    padding: 0 5rem;
+  }
+
+  .fd-card {
+    flex: 1;
+    flex-basis: 30%;
+    background: rgba(26, 42, 69, 0.6);
+    border: 1px solid rgba(62, 232, 181, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fd-card:hover {
+    border-color: rgba(62, 232, 181, 0.4);
+    box-shadow: 0 8px 32px rgba(62, 232, 181, 0.1);
+    transform: translateY(-4px);
+  }
+
+  .fd-card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(62, 232, 181, 0.15);
+    background: rgba(10, 22, 40, 0.4);
+  }
+
+  .fd-card-header :global(.fd-section-heading) {
+    margin: 0;
+    font-size: 1rem;
+    color: #3ee8b5;
+  }
+
+  .fd-card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fd-card-body :global(.fd-paragraph) {
+    margin: 0 0 1.1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #e8e4df;
+  }
+
+  .fd-card-body :global(.fd-list) {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+
+  .fd-card-body :global(.fd-list-item) {
+    margin-bottom: 0.75rem;
+    color: #e8e4df;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .fd-code-block {
+    background: rgba(10, 22, 40, 0.8);
+    border: 1px solid rgba(62, 232, 181, 0.15);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #a8d8c8;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .fd-examples-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  .fd-examples-table thead tr {
+    background: rgba(62, 232, 181, 0.12);
+  }
+
+  .fd-examples-table th {
+    text-align: left;
+    padding: 0.85rem 1.25rem;
+    color: #3ee8b5;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(62, 232, 181, 0.25);
+  }
+
+  .fd-examples-table td {
+    padding: 1rem 1.25rem;
+    color: #e8e4df;
+    line-height: 1.6;
+    vertical-align: top;
+    border-bottom: 1px solid rgba(62, 232, 181, 0.08);
+  }
+
+  .fd-examples-table td:first-child {
+    white-space: nowrap;
+    width: 22%;
+    color: #c8ddd5;
+  }
+
+  .fd-examples-table tbody tr:nth-child(odd) {
+    background: rgba(26, 42, 69, 0.5);
+  }
+
+  .fd-examples-table tbody tr:nth-child(even) {
+    background: rgba(10, 22, 40, 0.4);
+  }
+
+  .fd-examples-table tbody tr:hover {
+    background: rgba(62, 232, 181, 0.06);
+  }
+
+  .fd-decision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .fd-decision-panel {
+    background: rgba(26, 42, 69, 0.6);
+    border: 1px solid rgba(62, 232, 181, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+
+  .fd-decision-panel h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #3ee8b5;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .fd-decision-panel :global(.fd-list) {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .fd-decision-panel :global(.fd-list-item) {
+    margin-bottom: 0.6rem;
+    color: #e8e4df;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .fd-steps {
+    counter-reset: step-counter;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .fd-step {
+    counter-increment: step-counter;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .fd-step::before {
+    content: counter(step-counter);
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    background: rgba(62, 232, 181, 0.15);
+    border: 1px solid rgba(62, 232, 181, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #3ee8b5;
+    margin-top: 0.1rem;
+  }
+
+  .fd-step-content {
+    flex: 1;
+  }
+
+  .fd-step-content strong {
+    display: block;
+    color: #e8e4df;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+  }
+
+  .fd-step-content span {
+    color: #a8b8c8;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+</style>
+
+<p class="fd-paragraph">
+  Not every care process needs a complex, formal workflow. When work is repetitive and stateless — the same action repeated across many independent entities — Machina uses <strong>informal tasks</strong>: lightweight workflows that can contain many activities to be performed by multiple people. 
+</p>
+
+<p class="fd-paragraph">
+  Imagine a patient is being discharged after a minor outpatient procedure. There's no rigid, system-enforced workflow for this — it's just a series of handoffs between team members to make sure nothing falls through the cracks.
+</p>
+
+<figure class="fd-inline-figure">
+  <img
+    src={`${base}/visualizations/informal-workflow.png`}
+    alt="An informal workflow with three activities that must be completed to close the task"
+    class="fd-inline-img"
+    style="width: 700px;"
+    loading="lazy"
+  />
+</figure>
+
+<p class="fd-paragraph">
+  Each task sits in a queue. A specialist grabs one, performs the action, advances the queue status, and releases it. No blocks, no summaries, no transition logic — just a task with extra state.
+</p>
+
+<div class="fd-cards-container">
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">Lightweight by design</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        Informal tasks skip the full workflow pipeline — no blocks, summaries, or transition logic. When you have 500 facilities to contact, creating 500 full workflow tasks would be wasteful. Informal tasks keep the workflow engine lean.
+      </p>
+    </div>
+  </div>
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">Queue-native</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        Built for lock → act → release work. A specialist locks a task, performs an action (send fax, make call, file document), updates the queue status, and releases. The backing table tracks progression without workflow-level state accumulation.
+      </p>
+    </div>
+  </div>
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">Full audit trail</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        Like all workflow tasks, informal tasks create assignment periods and queue status periods — a complete record of who worked on what and when. The backing table stores additional domain-specific details: attempt dates, file references, notes.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+
+<h2 class="fd-section-heading">Choosing the right tool</h2>
+
+<div class="fd-decision-grid">
+  <div class="fd-decision-panel">
+    <h3>Informal tasks are the right fit when</h3>
+    <ul class="fd-list">
+      <li class="fd-list-item">When an ad hoc series of activities need to be performed aren't standard business operations</li>
+      <li class="fd-list-item">Each activity is independent—they don't need to be performed in any particular order</li>
+      <li class="fd-list-item">You need a record of what happened, but not a complex decision trail</li>
+      <li class="fd-list-item">Speed and volume matter more than official processes</li>
+    </ul>
+  </div>
+  <div class="fd-decision-panel">
+    <h3>Full workflows are the right fit when</h3>
+    <ul class="fd-list">
+      <li class="fd-list-item">Care has distinct phases and what happens next depends on what came before</li>
+      <li class="fd-list-item">Different outcomes require different follow-up paths</li>
+      <li class="fd-list-item">You need a structured record of decisions made along the way</li>
+      <li class="fd-list-item">The patient journey itself — not just a single task — is what you're managing</li>
+    </ul>
+  </div>
+</div>
+
+<h2 class="fd-section-heading">Real-world examples</h2>
+<table class="fd-examples-table">
+  <thead>
+    <tr>
+      <th>Use case</th>
+      <th>How it works</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Patient Complaint Resolution</strong></td>
+      <td>A patient calls in upset about a long wait time during their last visit and a billing charge they weren't expecting. No formal grievance process is triggered — it's not that serious — but the practice wants to make sure it gets handled thoughtfully.</td>
+    </tr>
+    <tr>
+      <td><strong>Credentialing and Onboarding</strong></td>
+      <td>A new physician assistant has been hired, and several people across the organization need to chip in to get them fully onboarded. There's no single system driving this end to end — it's a collaborative effort that moves between departments as each piece gets handled.</td>
+    </tr>
+    <tr>
+      <td><strong>Medical Equipment Repair Request</strong></td>
+      <td>When meeting with a patient in their home, a representative notices that a portable vital signs monitor intermittently dropping readings and isn't reliable enough to keep using. It's not an emergency — there are other units available — but it needs to get handled before it becomes a bigger problem.</td>
+    </tr>
+  </tbody>
+</table>

@@ -3,6 +3,11 @@ import OverviewLayout from "../../../layouts/OverviewLayout.astro";
 import FeatureDetail from "../../../components/overview/FeatureDetail.astro";
 import { features } from "../../../components/overview/feature-data.js";
 
+const contentModules = import.meta.glob(
+  "../../../components/overview/feature-content/*.astro",
+  { eager: true }
+);
+
 export function getStaticPaths() {
   return features.map(function(feature, index) {
     const prevFeature = features[index - 1] ?? null;
@@ -15,6 +20,13 @@ export function getStaticPaths() {
 }
 
 const { feature, prevFeature, nextFeature } = Astro.props;
+
+const moduleKey = Object.keys(contentModules).find((k) =>
+  k.endsWith(`/${feature.slug}.astro`)
+);
+const ContentComponent = moduleKey
+  ? (contentModules[moduleKey] as { default: any }).default
+  : null;
 ---
 
 <OverviewLayout title={`Machina — ${feature.name}`} activeSlug={feature.slug}>
@@ -22,10 +34,11 @@ const { feature, prevFeature, nextFeature } = Astro.props;
     name={feature.name}
     type={feature.type}
     badge={feature.badge}
-    description={feature.description}
     screenshot={feature.screenshot}
     video={feature.video}
     prevFeature={prevFeature}
     nextFeature={nextFeature}
-  />
+  >
+    {ContentComponent && <ContentComponent slot="content" />}
+  </FeatureDetail>
 </OverviewLayout>

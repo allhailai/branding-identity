@@ -1,28 +1,15 @@
 ---
-/**
- * @typedef {Object} FeatureDetailProps
- * @property {string} name
- * @property {'ai-native'|'platform'} type
- * @property {string|null} badge
- * @property {string} description
- * @property {string|null} screenshot
- * @property {string|null} video
- * @property {{ slug: string; name: string }|null} prevFeature
- * @property {{ slug: string; name: string }|null} nextFeature
- */
-
 interface Props {
   name: string;
   type: 'ai-native' | 'platform';
   badge: string | null;
-  description: string;
   screenshot: string | null;
   video: string | null;
   prevFeature: { slug: string; name: string } | null;
   nextFeature: { slug: string; name: string } | null;
 }
 
-const { name, type, badge, description, screenshot, video, prevFeature, nextFeature } = Astro.props;
+const { name, type, badge, screenshot, video, prevFeature, nextFeature } = Astro.props;
 const isAiNative = type === 'ai-native';
 const hasGif = !!video;
 const hasZoom = !!screenshot && !video;
@@ -30,33 +17,7 @@ const hasZoom = !!screenshot && !video;
 
 <article class="feature-detail">
 
-  <!-- ── Feature Navigation ── -->
-  {(prevFeature || nextFeature) && (
-    <div class="fd-nav-wrap">
-      <div class="fd-nav-prev">
-        {prevFeature && (
-          <a href={`/branding-identity/overview/features/${prevFeature.slug}`} class="fd-nav-link fd-nav-link--prev">
-            <svg class="fd-nav-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="19" y1="12" x2="5" y2="12"/>
-              <polyline points="12 19 5 12 12 5"/>
-            </svg>
-            <span>{prevFeature.name}</span>
-          </a>
-        )}
-      </div>
-      <div class="fd-nav-next">
-        {nextFeature && (
-          <a href={`/branding-identity/overview/features/${nextFeature.slug}`} class="fd-nav-link fd-nav-link--next">
-            <span>{nextFeature.name}</span>
-            <svg class="fd-nav-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12 5 19 12 12 19"/>
-            </svg>
-          </a>
-        )}
-      </div>
-    </div>
-  )}
+
 
   <!-- ── ZONE 1: Feature Header ── -->
   <header class="fd-header">
@@ -76,7 +37,9 @@ const hasZoom = !!screenshot && !video;
     </div>
 
     <h1 class="fd-title">{name}</h1>
-    <p class="fd-description">{description}</p>
+    <div class="fd-content">
+      <slot name="content" />
+    </div>
   </header>
 
   <!-- ── ZONE 2: Screenshot (with optional GIF play trigger) ── -->
@@ -241,11 +204,11 @@ const hasZoom = !!screenshot && !video;
   })();
 </script>
 
-<style>
+<style is:global>
   .feature-detail {
-    max-width: var(--content-max-width, 860px);
+    max-width: 80%;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 3rem 2rem;
   }
 
   /* ── Feature Navigation (prev / next) ── */
@@ -315,7 +278,6 @@ const hasZoom = !!screenshot && !video;
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('/logo-light-large.png');
     background-repeat: no-repeat;
     background-position: left center;
     background-size: auto 140%;
@@ -369,10 +331,84 @@ const hasZoom = !!screenshot && !video;
     margin-bottom: 20px;
   }
 
-  .fd-description {
+  /* ── Rich content blocks ── */
+  .fd-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .fd-paragraph {
     font-size: 1.05rem;
     line-height: 1.75;
-    color: var(--gray-300);
+    color: whitesmoke;
+    margin: 0 0 1.25rem;
+  }
+
+  .fd-section-heading {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin: 1.75rem 0 0.75rem;
+  }
+
+  .fd-section-heading:first-child {
+    margin-top: 0;
+  }
+
+  .fd-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    max-width: 680px;
+  }
+
+  .fd-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    font-size: 0.975rem;
+    line-height: 1.65;
+    color: whitesmoke;
+  }
+
+  .fd-list-item::before {
+    content: '';
+    flex-shrink: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--teal);
+    margin-top: 0.55em;
+    opacity: 0.7;
+  }
+
+  /* ── Inline content images ── */
+  .fd-inline-figure {
+    margin: 1.75rem 0 2rem;
+    display: block;
+  }
+
+  .fd-inline-img {
+    /* width: 100%; */
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .fd-inline-caption {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    font-style: italic;
     max-width: 680px;
   }
 

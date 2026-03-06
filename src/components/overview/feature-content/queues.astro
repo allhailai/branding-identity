@@ -1,0 +1,222 @@
+---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<style>
+  .fd-cards-container {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+    padding: 0 5rem;
+  }
+
+  .fd-card {
+    flex: 1;
+    flex-basis: 30%;
+    background: rgba(26, 42, 69, 0.6);
+    border: 1px solid rgba(62, 232, 181, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fd-card:hover {
+    border-color: rgba(62, 232, 181, 0.4);
+    box-shadow: 0 8px 32px rgba(62, 232, 181, 0.1);
+    transform: translateY(-4px);
+  }
+
+  .fd-card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(62, 232, 181, 0.15);
+    background: rgba(10, 22, 40, 0.4);
+  }
+
+  .fd-card-header :global(.fd-section-heading) {
+    margin: 0;
+    font-size: 1rem;
+    color: #3ee8b5;
+  }
+
+  .fd-card-body {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fd-card-body :global(.fd-paragraph) {
+    margin: 0 0 1.1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #e8e4df;
+  }
+
+  .fd-card-body :global(.fd-list) {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+
+  .fd-card-body :global(.fd-list-item) {
+    margin-bottom: 0.75rem;
+    color: #e8e4df;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .fd-distinction-callout {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: rgba(62, 232, 181, 0.07);
+    border: 1px solid rgba(62, 232, 181, 0.35);
+    border-left: 4px solid #3ee8b5;
+    border-radius: 8px;
+    padding: 1.5rem 1.75rem;
+    margin: 1.75rem 0 2rem;
+  }
+
+  .fd-distinction-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .fd-distinction-content {
+    flex: 1;
+  }
+
+  .fd-distinction-heading {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3ee8b5;
+    letter-spacing: 0.01em;
+  }
+
+  .fd-distinction-body {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #e8e4df;
+  }
+
+  .fd-distinction-body:last-child {
+    margin-bottom: 0;
+  }
+
+  .fd-distinction-body :global(strong) {
+    color: #ffffff;
+    font-weight: 600;
+  }
+</style>
+
+<p class="fd-paragraph">
+  Every care team member — health guides, nurse practitioners, medical records specialists, CDI reviewers — needs to know exactly what to work on next. Machina Queues deliver a real-time, role-filtered view of prioritized work, so no task falls through the cracks and no staff member wastes time hunting for their next action.
+</p>
+
+<div class="fd-distinction-callout">
+  <div class="fd-distinction-icon">⚡</div>
+  <div class="fd-distinction-content">
+    <h3 class="fd-distinction-heading">Queue Tasks Are Independent of Workflows</h3>
+    <p class="fd-distinction-body">
+      Tasks that appear in queues are <strong>fundamentally different</strong> from tasks created as steps inside a formal or informal workflow. Queue tasks — such as medical records requests, CDI prospective reviews, escalation responses, and transitions-of-care follow-ups — exist independently of any patient's workflow status or care pathway stage.
+    </p>
+    <p class="fd-distinction-body">
+      Any team member with the appropriate role can pick up and work a queue task <strong>at any time</strong>, regardless of where the patient is in their status journey. There is no prerequisite step, no workflow gate, and no dependency on what has or hasn't happened in the patient's care pathway. The work is simply available, prioritized, and waiting to be claimed.
+    </p>
+  </div>
+</div>
+
+
+
+<figure class="fd-inline-figure">
+  <img
+    src={`${base}/visualizations/queues-flow.png`}
+    alt="Queue visualization showing role-based filtered task lists sorted by patient risk and priority"
+    class="fd-inline-img"
+    style="width: 500px;"
+    loading="lazy"
+  />
+</figure>
+
+<h2 class="fd-section-heading">The answer to "what do I work on next?"</h2>
+<p class="fd-paragraph">
+  Queues eliminate the daily coordination tax — the Slack messages, the spreadsheet checks, the manager interruptions — by giving every care team member a single, authoritative, always-current list of their prioritized work. Staff spend their time on patients, not on figuring out what to do next.
+</p>
+
+<div class="fd-cards-container">
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">Role-Based Filtering</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        Each team member sees only the tasks relevant to their role, office, or direct assignment. Field guides see engagement visits; medical records specialists see records requests; managers see unassigned work awaiting distribution.
+      </p>
+    </div>
+  </div>
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">Intelligent Prioritization</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        Tasks surface in the order they matter most — weighted by patient risk level, SLA deadlines, and calculated priority scores. High-risk discharges and overdue follow-ups rise to the top automatically, without manual triage.
+      </p>
+    </div>
+  </div>
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">No Duplicate Work</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        When multiple staff members share a queue, Machina's locking mechanism ensures only one person processes a task at a time — eliminating the coordination overhead and errors that come from shared spreadsheets or manual handoffs.
+      </p>
+    </div>
+  </div>
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">Configurable Per Team</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        Queue definitions are tenant-configurable — filter by task type, patient attributes, office, program enrollment, or any combination. New care programs get their own queue without engineering changes.
+      </p>
+    </div>
+  </div>
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">Manager Visibility</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        Supervisors get a real-time view of queue depth, workload distribution, and aging tasks. Bulk assignment, manual override, and escalation controls give managers the levers to keep operations running smoothly.
+      </p>
+    </div>
+  </div>
+
+  <div class="fd-card">
+    <div class="fd-card-header">
+      <h2 class="fd-section-heading">SLA &amp; Throughput Tracking</h2>
+    </div>
+    <div class="fd-card-body">
+      <p class="fd-paragraph">
+        Every task's time-in-queue is recorded. Completion rates, average handle time, overdue counts, and assignment balance are all measurable — giving operations leaders the data to hold teams accountable and improve performance.
+      </p>
+    </div>
+  </div>
+
+</div>
+
