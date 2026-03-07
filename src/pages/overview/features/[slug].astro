@@ -21,6 +21,13 @@ export function getStaticPaths() {
 
 const { feature, prevFeature, nextFeature } = Astro.props;
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+function withBase(path: string | null): string | null {
+  if (!path) return null;
+  return `${base}${path}`;
+}
+
 const moduleKey = Object.keys(contentModules).find((k) =>
   k.endsWith(`/${feature.slug}.astro`)
 );
@@ -34,8 +41,8 @@ const ContentComponent = moduleKey
     name={feature.name}
     type={feature.type}
     badge={feature.badge}
-    screenshot={feature.screenshot}
-    video={feature.video}
+    screenshot={withBase(feature.screenshot)}
+    video={withBase(feature.video)}
     prevFeature={prevFeature}
     nextFeature={nextFeature}
   >

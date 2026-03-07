@@ -1,0 +1,1475 @@
+// Firsthand Helping Hand Database Schema
+// Generated from Phoenix Ecto schemas
+// Database: PostgreSQL with multi-tenant architecture (org_id scoping)
+
+// ============================================================================
+// CORE DOMAIN - Organizations & Users
+// ============================================================================
+
+Table orgs {
+  id bigint [pk]
+  name string [not null]
+  is_deleted boolean
+  org_parent_id bigint [ref: > org_parents.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table org_parents {
+  id bigint [pk]
+  name string [not null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table users {
+  id bigint [pk]
+  email string
+  mobile_phone string
+  first_name string
+  last_name string
+  full_name string
+  auth0_id string
+  timezone_key string [ref: > ref_timezones.key]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  deleted_by_id bigint [ref: > users.id]
+  is_deleted boolean
+  deleted_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table ref_timezones {
+  key string [pk]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table org_users {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  user_id bigint [not null, ref: > users.id]
+  is_deleted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_offices {
+  id bigint [pk]
+  user_id bigint [not null, ref: > users.id]
+  office_id bigint [not null, ref: > offices.id]
+  is_deleted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_business_role_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_business_role_periods {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  user_id bigint [not null, ref: > users.id]
+  business_role_key string [ref: > user_business_role_lku_types.key]
+  start_at timestamp
+  end_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_tags {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  user_id bigint [not null, ref: > users.id]
+  tag_value_key string [ref: > user_tag_values.key]
+  is_deleted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_tag_values {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  display_text string
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// AUTHORIZATION & PERMISSIONS
+// ============================================================================
+
+Table authz_roles {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  description string
+  default_route string
+  is_external_role boolean
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table authz_user_roles {
+  user_id bigint [pk, ref: > users.id]
+  role_key string [pk, ref: > authz_roles.key]
+  org_id bigint [pk, ref: > orgs.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table authz_permissions {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  asset_key string
+  action_key string
+  is_deleted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table authz_role_permissions {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  role_key string [ref: > authz_roles.key]
+  permission_key string [ref: > authz_permissions.key]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table authz_action_lku_types {
+  key string [pk]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table authz_asset_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table impersonation_logs {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  impersonator_id bigint [ref: > users.id]
+  impersonated_user_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table request_logs {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  user_id bigint [ref: > users.id]
+  method string
+  path string
+  status_code integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table refresh_token_whitelist {
+  token string [pk]
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// TEAMS & ORGANIZATIONAL STRUCTURE
+// ============================================================================
+
+Table teams {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  name string
+  team_type_key string [ref: > team_lku_types.key]
+  office_id bigint [ref: > offices.id]
+  ext jsonb
+  is_deleted boolean
+  deleted_at timestamp
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table team_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  description string
+  is_deleted boolean
+  deleted_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table team_members {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  team_id bigint [not null, ref: > teams.id]
+  user_id bigint [not null, ref: > users.id]
+  ext jsonb
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table team_member_periods {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  team_member_id bigint [not null, ref: > team_members.id]
+  start_at timestamp
+  end_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table offices {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  region_id bigint [ref: > regions.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table regions {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table team_type_cfg_business_roles {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  team_type_key string [ref: > team_lku_types.key]
+  business_role_key string [ref: > user_business_role_lku_types.key]
+  is_deleted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// CONTACTS & RELATIONSHIPS
+// ============================================================================
+
+Table contacts {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  first_name string
+  last_name string
+  birth_date date
+  middle_name string
+  name_suffix string
+  full_name string
+  preferred_name string
+  death_date date
+  ssn_last4 string
+  company_name string
+  website string
+  npi string
+  tin string
+  email string
+  email_alternative string
+  note_human string
+  note_ai string
+  note_system string
+  pronouns string
+  ext jsonb
+  type_key string [ref: > contact_lku_types.key]
+  sex_key string [ref: > contacts_lku_sexes.key]
+  language_primary_key string [ref: > contacts_lku_languages.key]
+  language_secondary_key string [ref: > contacts_lku_languages.key]
+  ethnicity_key string [ref: > contacts_lku_ethnicities.key]
+  race_key string [ref: > contacts_lku_races.key]
+  timezone_override_key string [ref: > ref_timezones.key]
+  deleted_at timestamp
+  is_deleted boolean
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  is_human boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contacts_lku_sexes {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contacts_lku_languages {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contacts_lku_ethnicities {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contacts_lku_races {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_addresses {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [not null, ref: > contacts.id]
+  line_1 string
+  line_2 string
+  city string
+  state string
+  zip5 string
+  is_primary boolean
+  type_key string [ref: > contact_address_lku_types.key]
+  is_deleted boolean
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_address_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_address_lku_states {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_address_lku_verification_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_phone_numbers {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [not null, ref: > contacts.id]
+  phone_number string
+  phone_ext string
+  is_primary boolean
+  type_key string [ref: > contact_phone_lku_types.key]
+  status_key string [ref: > contact_phone_lku_verification_statuses.key]
+  is_deleted boolean
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_phone_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_phone_lku_verification_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_events {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [not null, ref: > contacts.id]
+  event_at timestamp
+  type_key string [ref: > contact_event_lku_types.key]
+  status_key string [ref: > contact_event_lku_statuses.key]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_event_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_event_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_comments {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [not null, ref: > contacts.id]
+  comment string
+  is_patient_comment boolean
+  is_deleted boolean
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_relationships {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [not null, ref: > contacts.id]
+  related_contact_id bigint [ref: > contacts.id]
+  type_key string [ref: > contact_relationships_lku_types.key]
+  note_human string
+  is_deleted boolean
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_relationships_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_relationship_attributes {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_relationship_id bigint [not null, ref: > contact_relationships.id]
+  attr_type string
+  attr_value string
+  is_deleted boolean
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_periods {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [not null, ref: > contacts.id]
+  type_key string [ref: > contact_period_lku_types.key]
+  start_at timestamp
+  end_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_period_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_period_lku_values {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  display_text string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_team_periods {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [not null, ref: > contacts.id]
+  team_id bigint [not null, ref: > teams.id]
+  start_at timestamp
+  end_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contact_duplicate_dismissals {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  source_contact_id bigint [not null, ref: > contacts.id]
+  target_contact_id bigint [not null, ref: > contacts.id]
+  created_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// PATIENTS & CLINICAL DATA
+// ============================================================================
+
+Table patients {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  care_team_id bigint [ref: > teams.id]
+  enterprise_patient_id integer
+  internal_emr_id integer
+  ext jsonb
+  deleted_at timestamp
+  is_deleted boolean
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_identifiers {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  patient_id bigint [not null, ref: > patients.id]
+  identifier string
+  type_key string [ref: > patient_identifier_lku_types.key]
+  source_id bigint [ref: > patient_identifier_sources.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_identifier_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_identifier_lku_sources {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_identifier_sources {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  source_name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_attributes {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  patient_id bigint [not null, ref: > patients.id]
+  type_key string [ref: > patient_attribute_lku_types.key]
+  value string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_attribute_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_payer_market_periods {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  patient_id bigint [not null, ref: > patients.id]
+  payer_market_id bigint [ref: > payer_markets.id]
+  start_at timestamp
+  end_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_consents {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  patient_id bigint [not null, ref: > patients.id]
+  type_key string [ref: > patient_consent_lku_types.key]
+  is_granted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_consent_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_documents {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  patient_id bigint [not null, ref: > patients.id]
+  file_id bigint [ref: > files.id]
+  type_key string [ref: > patient_document_lku_types.key]
+  ext jsonb
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_document_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_bulletins {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  patient_id bigint [not null, ref: > patients.id]
+  type_key string [ref: > patient_bulletin_lku_types.key]
+  is_critical boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_bulletin_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_cfg_ml_models {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  type_key string [ref: > patient_cfg_ml_model_types.key]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_cfg_ml_model_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patient_ml_predictors {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  patient_id bigint [not null, ref: > patients.id]
+  description string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table files {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  filename string
+  content_type string
+  file_size bigint
+  storage_path string
+  created_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// PAYERS & MARKETS
+// ============================================================================
+
+Table payers {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table payer_markets {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  payer_id bigint [not null, ref: > payers.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table payer_lku_lobs {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// SCHEDULING & APPOINTMENTS
+// ============================================================================
+
+Table appointments {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  appointment_series_id bigint [ref: > appointment_series.id]
+  contact_address_id bigint [ref: > contact_addresses.id]
+  contact_phone_id bigint [ref: > contact_phone_numbers.id]
+  status_key string [ref: > appointments_lku_statuses.key]
+  type_key string [ref: > visit_lku_types.key]
+  modality_key string [ref: > visit_lku_modalities.key]
+  cancellation_reason_key string [ref: > appointments_lku_cancellation_reasons.key]
+  scheduled_start_at timestamp
+  scheduled_end_at timestamp
+  cancelled_at timestamp
+  description string
+  join_url string
+  note_human string
+  note_ai string
+  note_system string
+  cancellation_notes string
+  ext jsonb
+  is_busy boolean
+  is_deleted boolean
+  deleted_at timestamp
+  is_series_override boolean
+  is_all_day_appointment boolean
+  cancelled_by_id bigint [ref: > users.id]
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointments_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointments_lku_cancellation_reasons {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table visit_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table visit_lku_modalities {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table visit_lku_dispositions {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointment_series {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  rrule string
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointment_participants {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  appointment_id bigint [not null, ref: > appointments.id]
+  contact_id bigint [ref: > contacts.id]
+  is_host boolean
+  participation_status_key string [ref: > appointment_participant_lku_participation_statuses.key]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointment_participant_lku_participation_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointment_series_participants {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  appointment_series_id bigint [not null, ref: > appointment_series.id]
+  contact_id bigint [ref: > contacts.id]
+  is_host boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointment_logical_participants {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  appointment_id bigint [not null, ref: > appointments.id]
+  is_host boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointment_series_logical_participants {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  appointment_series_id bigint [not null, ref: > appointment_series.id]
+  is_host boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table appointment_status_periods {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  appointment_id bigint [not null, ref: > appointments.id]
+  status_key string [ref: > appointments_lku_statuses.key]
+  start_why string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table visits {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  appointment_id bigint [not null, ref: > appointments.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  start_at timestamp
+  end_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table visit_participants {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  visit_id bigint [not null, ref: > visits.id]
+  contact_id bigint [ref: > contacts.id]
+  start_at timestamp
+  end_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// WORKFLOWS & TASKS
+// ============================================================================
+
+Table workflows {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  type_key string [ref: > workflow_lku_types.key]
+  status_key string [ref: > workflow_lku_statuses.key]
+  start_at timestamp
+  due_at timestamp
+  end_at timestamp
+  is_deleted boolean
+  deleted_at timestamp
+  is_default_workflow boolean
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  description string
+  is_deleted boolean
+  deleted_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_status_periods {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  status_key string [ref: > workflow_lku_statuses.key]
+  start_why string
+  is_current boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_task_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_task_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_tasks {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  workflow_status_period_id bigint [ref: > workflow_status_periods.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  related_contact_id bigint [ref: > contacts.id]
+  related_patient_id bigint [ref: > patients.id]
+  type_key string [ref: > workflow_task_lku_types.key]
+  status_key string [ref: > workflow_task_lku_statuses.key]
+  assigned_to_id bigint [ref: > users.id]
+  assigned_to_team_id bigint [ref: > teams.id]
+  assigned_to_business_role_key string [ref: > user_business_role_lku_types.key]
+  assigned_to_queue_id bigint [ref: > workflow_task_queues.id]
+  locked_by_id bigint [ref: > users.id]
+  instructions string
+  start_at timestamp
+  due_at timestamp
+  end_at timestamp
+  note_human string
+  note_ai string
+  note_system string
+  is_deleted boolean
+  deleted_at timestamp
+  is_expanded_features boolean
+  related_entity_uid string
+  related_entity_uid_source string
+  locked_at timestamp
+  locked_expires_at timestamp
+  queue_status_key string
+  calculated_weight decimal
+  calculated_priority_weight decimal
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_task_queues {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  name string
+  type_key string [ref: > workflow_task_queue_lku_types.key]
+  status_key string [ref: > workflow_task_queue_lku_statuses.key]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_task_queue_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_task_queue_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_task_tags {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_task_id bigint [not null, ref: > workflow_tasks.id]
+  tag_value_key string [ref: > workflow_task_tag_values.key]
+  is_deleted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_task_tag_values {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  display_text string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_comments {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  comment string
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_events {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  type_key string [ref: > workflow_event_lku_types.key]
+  status_key string [ref: > workflow_event_lku_statuses.key]
+  event_at timestamp
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_event_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  description string
+  is_deleted boolean
+  deleted_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_event_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table workflow_debug_logs {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  happened_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// COMMUNICATIONS
+// ============================================================================
+
+Table comms_conversations {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  started_at timestamp
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_conversation_threads {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  conversation_id bigint [not null, ref: > comms_conversations.id]
+  status_key string [ref: > comms_conversation_thread_lku_statuses.key]
+  started_at timestamp
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_conversation_thread_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_conversation_messages {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  conversation_id bigint [not null, ref: > comms_conversations.id]
+  thread_id bigint [ref: > comms_conversation_threads.id]
+  sender_key string [ref: > comms_conversation_message_lku_senders.key]
+  status_key string [ref: > comms_conversation_message_lku_statuses.key]
+  body string
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_conversation_message_lku_senders {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_conversation_message_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_conversation_subscriptions {
+  user_id bigint [pk, ref: > users.id]
+  org_id bigint [pk, ref: > orgs.id]
+  conversation_id bigint [pk, ref: > comms_conversations.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_calls {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  started_at timestamp
+  ended_at timestamp
+  disposition_key string [ref: > comms_call_lku_dispositions.key]
+  purpose_key string [ref: > comms_call_lku_purposes.key]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_call_lku_dispositions {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_call_lku_purposes {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_video_meetings {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  start_at timestamp
+  end_at timestamp
+  disposition_key string [ref: > comms_video_meeting_lku_dispositions.key]
+  purpose_key string [ref: > comms_video_meeting_lku_purposes.key]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_video_meeting_lku_dispositions {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_video_meeting_lku_purposes {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_video_meeting_registrants {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  video_meeting_id bigint [not null, ref: > comms_video_meetings.id]
+  registrant_email string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_provisioned_telecom_phone_numbers {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  platform_sid string
+  type_key string [ref: > comms_provisioned_telecom_phone_number_lku_types.key]
+  status_key string [ref: > comms_provisioned_telecom_phone_number_lku_statuses.key]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_provisioned_telecom_phone_number_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_provisioned_telecom_phone_number_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_lku_modalities {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_lku_telecom_platforms {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_zoom_users {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  user_id bigint [not null, ref: > users.id]
+  zoom_user_id string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_telecom_platform_webhook_events {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  resource_sid string
+  type_key string [ref: > comms_telecom_platform_webhook_event_lku_types.key]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table comms_telecom_platform_webhook_event_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// FIRSTHAND-SPECIFIC TABLES (FH Schema)
+// ============================================================================
+
+Table individuals {
+  id bigint [pk]
+  patient_id bigint [not null, ref: > patients.id]
+  is_bensup_eligible boolean
+  deleted_at timestamp
+  is_deleted boolean
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table nme_assessments {
+  id bigint [pk]
+  patient_id bigint [not null, ref: > patients.id]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_task_id bigint [ref: > workflow_tasks.id]
+  is_currently_receiving_benefits boolean
+  current_benefits_amount decimal
+  approval_date date
+  has_previously_applied_for_benefits string
+  previous_application_result string
+  has_first_decision_or_consideration_date boolean
+  is_initially_approved boolean
+  initial_approval_date date
+  appeal_for_reconsideration_date date
+  appeal_court_hearing_date date
+  is_final_decision_approved boolean
+  final_decision_date date
+  condition_prevents_working boolean
+  condition_prevents_working_since_date date
+  condition_prevents_working_details string
+  has_worked_consistently_in_past boolean
+  has_worked_consistently_in_past_details string
+  monthly_work_income decimal
+  monthly_work_income_details string
+  financial_help_outside_work decimal
+  financial_help_outside_work_details string
+  asset_value decimal
+  asset_value_details string
+  is_individual_interested_in_help boolean
+  current_representative_name string
+  current_representative_contact_info string
+  is_submitted boolean
+  submitted_at timestamp
+  is_deleted boolean
+  deleted_at timestamp
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table expenses {
+  id bigint [pk]
+  patient_id bigint [not null, ref: > patients.id]
+  org_id bigint [not null, ref: > orgs.id]
+  amount decimal [not null]
+  purchase_date date [not null]
+  item_name string [not null]
+  category_key string [not null, ref: > expenses_lku_categories.key]
+  deleted_at timestamp
+  is_deleted boolean
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table expenses_lku_categories {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table health_checks {
+  id bigint [pk]
+  patient_id bigint [not null, ref: > patients.id]
+  org_id bigint [not null, ref: > orgs.id]
+  is_health_declining boolean
+  is_deleted boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table wf_bensup_blocks {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table wf_bensup_summaries {
+  id bigint [pk]
+  patient_id bigint [not null, ref: > patients.id]
+  org_id bigint [not null, ref: > orgs.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table wf_engagement_blocks {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table wf_engagement_summaries {
+  id bigint [pk]
+  patient_id bigint [not null, ref: > patients.id]
+  org_id bigint [not null, ref: > orgs.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bensup_ai_analysis_reports {
+  id bigint [pk]
+  patient_id bigint [not null, ref: > patients.id]
+  org_id bigint [not null, ref: > orgs.id]
+  created_at timestamp
+  updated_at timestamp
+}

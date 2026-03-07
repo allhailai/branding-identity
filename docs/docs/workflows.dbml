@@ -1,0 +1,319 @@
+// Firsthand Helping Hand - Workflow Task Tracking Schema
+// Subset of machina.dbml focused on workflow and task management
+// Database: PostgreSQL with multi-tenant architecture (org_id scoping)
+
+// ============================================================================
+// ORGANIZATIONS & USERS (Referenced)
+// ============================================================================
+
+Table orgs {
+  id bigint [pk]
+  name string [not null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table users {
+  id bigint [pk]
+  email string
+  first_name string
+  last_name string
+  full_name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table teams {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_business_role_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table contacts {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  first_name string
+  last_name string
+  full_name string
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table patients {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+// ============================================================================
+// WORKFLOWS & TASKS
+// ============================================================================
+
+Table workflows {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  type_key string [ref: > workflow_lku_types.key]
+  status_key string [ref: > workflow_lku_statuses.key]
+  start_at timestamp
+  due_at timestamp
+  end_at timestamp
+  is_deleted boolean
+  deleted_at timestamp
+  is_default_workflow boolean
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Root workflow entity - represents a workflow instance for a contact/patient"
+}
+
+Table workflow_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  description string
+  is_deleted boolean
+  deleted_at timestamp
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for workflow types (e.g., BENSUP, Engagement, ISJ)"
+}
+
+Table workflow_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for workflow statuses (e.g., Active, Completed, On Hold)"
+}
+
+Table workflow_status_periods {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  status_key string [ref: > workflow_lku_statuses.key]
+  start_why string
+  is_current boolean
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Tracks status changes over time for a workflow"
+}
+
+Table workflow_tasks {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  workflow_status_period_id bigint [ref: > workflow_status_periods.id]
+  contact_id bigint [ref: > contacts.id]
+  patient_id bigint [ref: > patients.id]
+  related_contact_id bigint [ref: > contacts.id]
+  related_patient_id bigint [ref: > patients.id]
+  type_key string [ref: > workflow_task_lku_types.key]
+  status_key string [ref: > workflow_task_lku_statuses.key]
+  assigned_to_id bigint [ref: > users.id]
+  assigned_to_team_id bigint [ref: > teams.id]
+  assigned_to_business_role_key string [ref: > user_business_role_lku_types.key]
+  assigned_to_queue_id bigint [ref: > workflow_task_queues.id]
+  locked_by_id bigint [ref: > users.id]
+  instructions string
+  start_at timestamp
+  due_at timestamp
+  end_at timestamp
+  note_human string
+  note_ai string
+  note_system string
+  is_deleted boolean
+  deleted_at timestamp
+  is_expanded_features boolean
+  related_entity_uid string
+  related_entity_uid_source string
+  locked_at timestamp
+  locked_expires_at timestamp
+  queue_status_key string
+  calculated_weight decimal
+  calculated_priority_weight decimal
+  deleted_by_id bigint [ref: > users.id]
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Individual task within a workflow - can be assigned to user, team, queue, or business role"
+}
+
+Table workflow_task_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for task types (e.g., Assessment, Review, Approval)"
+}
+
+Table workflow_task_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for task statuses (e.g., Pending, In Progress, Completed, Blocked)"
+}
+
+Table workflow_task_queues {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  name string
+  type_key string [ref: > workflow_task_queue_lku_types.key]
+  status_key string [ref: > workflow_task_queue_lku_statuses.key]
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Queue for tasks assigned to groups rather than individuals"
+}
+
+Table workflow_task_queue_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for queue types"
+}
+
+Table workflow_task_queue_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for queue statuses"
+}
+
+Table workflow_task_tags {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_task_id bigint [not null, ref: > workflow_tasks.id]
+  tag_value_key string [ref: > workflow_task_tag_values.key]
+  is_deleted boolean
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Tags applied to tasks for categorization and filtering"
+}
+
+Table workflow_task_tag_values {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  display_text string
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for available task tag values"
+}
+
+Table workflow_comments {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  comment string
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Comments on workflow progress and status"
+}
+
+Table workflow_events {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  type_key string [ref: > workflow_event_lku_types.key]
+  status_key string [ref: > workflow_event_lku_statuses.key]
+  event_at timestamp
+  created_by_id bigint [ref: > users.id]
+  updated_by_id bigint [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Events that occur during workflow execution (e.g., task completed, workflow paused)"
+}
+
+Table workflow_event_lku_types {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  description string
+  is_deleted boolean
+  deleted_at timestamp
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for workflow event types"
+}
+
+Table workflow_event_lku_statuses {
+  key string [pk]
+  org_id bigint [pk, ref: > orgs.id]
+  name string
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Lookup table for workflow event statuses"
+}
+
+Table workflow_debug_logs {
+  id bigint [pk]
+  org_id bigint [not null, ref: > orgs.id]
+  workflow_id bigint [not null, ref: > workflows.id]
+  happened_at timestamp
+  created_at timestamp
+  updated_at timestamp
+
+  note: "Debug logs for workflow execution and troubleshooting"
+}
+
+// ============================================================================
+// KEY WORKFLOW TRACKING CONCEPTS
+// ============================================================================
+//
+// WORKFLOW HIERARCHY:
+//   Workflow (root) -> Workflow Status Periods -> Workflow Tasks
+//
+// TASK ASSIGNMENT OPTIONS (exactly one must be set):
+//   - assigned_to_id (individual user)
+//   - assigned_to_team_id + assigned_to_business_role_key (team with role)
+//   - assigned_to_queue_id (queue for group assignment)
+//
+// WORKFLOW EVENTS:
+//   Track significant events during workflow execution (task completed, paused, etc.)
+//
+// WORKFLOW COMMENTS:
+//   Audit trail of workflow progress and status changes
+//
+// WORKFLOW DEBUG LOGS:
+//   Technical logs for troubleshooting workflow execution
